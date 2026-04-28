@@ -6,10 +6,9 @@ const authenticate = async (req, res, next) => {
     const accessToken = req.headers.authorization?.split(' ')[1]
     if(!accessToken) return res.status(401).json({message: 'Expierd or No token'})
     const verifyToken = JWT.verify(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET)
-    const userId = verifyToken.id
-    const validUser = await User.findById(userId).select('-password')
+    const validUser = await User.findById(verifyToken.id).select('-password')
     if(!validUser) return res.status(403).json({message: 'Invalid user or token'})
-    req.userRole = verifyToken.role
+    req.user = verifyToken
     next()
   } catch (error) {
     console.log(`An error occured: ${error}`)
@@ -23,11 +22,11 @@ const authorize = (roles = []) => {
   }
     return (req, res, next) => {
       try{
-          if (!req.userRole) {
+          if (!req.user.role) {
           return res.status(401).json({ message: 'Authentication required' });
         }
 
-        if(roles.length && !roles.includes(req.userRole)){
+        if(roles.length && !roles.includes(req.user.role)){
           return res.status(403).json({message: 'Access denied, invalid permision'})
         }
         next()
