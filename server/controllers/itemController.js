@@ -24,8 +24,7 @@ const getItem = async (req, res) => {
 }
 
 const addItem = async (req, res) => {
-  const supplier = req.user.id
-  const {name, category, quantity, unit, reorderLevel} = req.body
+  const {name, category, quantity, unit, reorderLevel, supplier} = req.body
   if ( !name || !category || !quantity || !unit || !reorderLevel || !supplier ) return res.status(401).json({message: 'please enter all fields'})
   try {
     const item = await Item.create({name, category, quantity, unit, reorderLevel, supplier})
@@ -38,7 +37,7 @@ const addItem = async (req, res) => {
 
 const updateItem = async (req, res) => {
   const itemId = req.params.id
-  const {name, category, quantity, unit} = req.body
+  const {name, category, quantity, unit, reorderLevel, supplier} = req.body
   try {
     const item = await Item.findById(itemId)
     if(!item) return res.status(404).json({message: 'item not found'})
@@ -47,8 +46,8 @@ const updateItem = async (req, res) => {
       category: category || item.category, 
       quantity: quantity || item.quantity, 
       unit: unit || item.unit,
-      reorderLevel: item.reorderLevel,
-      supplier: item.supplier
+      reorderLevel: reorderLevel || item.reorderLevel,
+      supplier: supplier || item.supplier
     }
     await Item.findByIdAndUpdate(item._id, updatedItem)
     res.status(201).json({ message: 'item updated successfully', updatedItem})

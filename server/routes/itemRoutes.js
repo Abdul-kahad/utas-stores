@@ -3,9 +3,9 @@ const {getItems, getItem, addItem, updateItem, deleteItem} = require('../control
 const {authenticate, authorize} = require('../middleware/authMiddleware')
 
 itemRoutes.get('/api/items', authenticate, authorize(["admin", "store_manager", "department_user", "procurement"]), getItems)
-itemRoutes.get('/api/items/:id', authenticate, authorize(["admin", "store_manager"]), getItem)
-itemRoutes.post('/api/items', authenticate, authorize(["admin", "store_manager"]), addItem)
-itemRoutes.put('/api/items/:id', authenticate, authorize(["admin", "store_manager"]), updateItem)
-itemRoutes.delete('/api/items/:id', authenticate, authorize(["admin", "store_manager"]), deleteItem)
+itemRoutes.get('/api/items/:id', authenticate, authorize(["admin", "store_manager", "department_user", "procurement"]), getItem)
+itemRoutes.post('/api/items', authenticate, authorize(["admin", "procurement"]), addItem)
+itemRoutes.put('/api/items/:id', authenticate, authorize(["admin", "procurement"]), updateItem)
+itemRoutes.delete('/api/items/:id', authenticate, authorize(["admin", "procurement"]), deleteItem)
 
 module.exports = itemRoutes

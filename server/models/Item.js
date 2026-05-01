@@ -24,7 +24,7 @@ const itemSchema = mongoose.Schema({
   },
   supplier: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Supplier',
     required: true,
     index: true
   }
