@@ -1,10 +1,11 @@
+import Hompage from "./Pages/Homepage/Hompage"
 
 function App() {
 
   return (
-    <>
-      <h1 className="text-green-500 font-bold text-3xl">Welcome to UTAS Stores!</h1>
-    </>
+    <div className="box-border">
+      <Hompage />
+    </div>
   )
 }
 
