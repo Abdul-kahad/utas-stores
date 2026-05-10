@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
@@ -5,11 +6,11 @@ const Navbar = () => {
       <div className="logo">UTAS STORE</div>
       <div className="navitems">
         <ul className="flex gap-10 items-center">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Login</a></li>
-          <li><a href="#"><button className="bg-blue-500 px-3 py-2 rounded-md">Register</button></a></li>
+          <li><Link to={'/'}>Home</Link></li>
+          <li><Link to={'/features'}>Features</Link></li>
+          <li><Link to={'/about'}>About</Link></li>
+          <li><Link to={'/login'}>Login</Link></li>
+          <li><Link to={'/login'}><button className="bg-blue-500 px-3 py-2 rounded-md">Register</button></Link></li>
         </ul>
       </div>
     </div>

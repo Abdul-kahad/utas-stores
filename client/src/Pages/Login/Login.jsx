@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const Login = () => {
   const [haveacc, setHaveacc] = useState(true)
@@ -26,7 +27,7 @@ const Login = () => {
             <input className="mb-5 p-2 bg-gray-100 rounded" type="text" id="cpass" placeholder="Repeat Password"/>
 
             <button className="bg-green-700 p-2 text-white rounded">Create Account</button>
-            <a className="text-red-500 text-sm mt-2 text-center" href="#" onClick={toggle}>Already have an account? Login</a>
+            <Link className="text-red-500 text-sm mt-2 text-center" to="/login" onClick={toggle}>Already have an account? Login</Link>
           </div> 
         : 
           <div className="flex flex-col p-10 h-screen bg-white justify-center ">
@@ -39,7 +40,7 @@ const Login = () => {
             <input className="mb-5 p-2 bg-gray-100 rounded" type="text" id="password" placeholder="Enter Password"/>
 
             <button className="bg-green-700 p-2 text-white rounded">Login</button>
-            <a className="text-red-500 text-sm mt-2 text-center" href="#" onClick={toggle}>Dont have an account? Register</a>
+            <Link className="text-red-500 text-sm mt-2 text-center" href="/register" onClick={toggle}>Dont have an account? Register</Link>
           </div>}
 
       </div>
