@@ -1,55 +1,59 @@
+import { useEffect, useState } from "react"
+import {getItems, getItem} from '../../../services/itemService'
+import {sendRequests} from '../../../services/requestService'
 
 const RequestItem = () => {
+    const [items, setItems] = useState([])
+    const [formData, setFormData] = useState({})
+        useEffect(() => {
+          const fetchItems = async () => {
+            const results = await getItems()
+            setItems(results)
+          }
+          fetchItems()
+        },[items])
+  
+    const requestItemHandler = async (formData) => {
+      console.log(formData)
+      await sendRequests(formData)
+      setFormData({
+          itemId: '',
+          quantity: ''
+      })
+    }
+
   return (
-    <div className="RequestItem p-5 flex justify-center ">
+    <div className="RequestItem p-5 flex flex-col justify-center ">
 
       <div className="inventory p-5">
         <table className="table-auto w-full text-left ">
-          <thead>
+          <thead className="text-sm">
             <tr>
               <th className="rounded p-4">Item Name</th>
               <th className="rounded p-4">
                 <select className="p-1">
-                  <option value="Electronis">Electronics</option>
-                  <option value="Electronis">Furniture</option>
-                  <option value="Electronis">Maintenence</option>
-                  <option value="Electronis">Materal</option>
+                  <option value="Electronics">Category</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Maintenance">Maintenance</option>
+                  <option value="Material">Material</option>
                 </select>
               </th>
               <th className="rounded p-4">Unit</th>
               <th className="rounded p-4">Quantity</th>
-              <th className="rounded p-4">Request</th>
+              <th className="rounded p-4">Request Item</th>
             </tr>
           </thead>
           <tbody >
-            <tr className="rounded bg-gray-100">
-              <td className="p-4">Lenovo Laptop</td>
-              <td className="p-4">Electonics</td>
-              <td className="p-4">Pcs</td>
-              <td className="p-4"> <input type="text" className="w-15 p-1 bg-white" placeholder="eg. 15"/></td>
-              <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded">Add</button></td>
+            {items.map(item => (
+              <tr className="rounded bg-gray-100 border-b border-gray-200" key={item._id} >
+              <td className="p-4">{item.name}</td>
+              <td className="p-4">{item.category}</td>
+              <td className="p-4">{item.unit}</td>
+              <td className="p-4"><input type="text" className="w-15 p-1 bg-white" placeholder="eg. 15" onChange={(e) => setFormData({...formData, quantity: e.target.value}) } value={formData.quantity}/></td>
+              <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded" onClick={() => requestItemHandler({...formData, itemId: item._id})}>Send Request</button></td>
             </tr>
-            <tr className="rounded bg-gray-50">
-              <td className="p-4">Office Chier</td>
-              <td className="p-4">Furniture</td>
-              <td className="p-4">Pcs</td>
-              <td className="p-4"> <input type="text" className="w-15 p-1 bg-white" placeholder="eg. 15"/></td>
-              <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded">Add</button></td>
-            </tr>
-            <tr className="rounded bg-gray-100">
-              <td className="p-4">Hand Sanitiser</td>
-              <td className="p-4">Maintenence</td>
-              <td className="p-4">Box</td>
-              <td className="p-4"> <input type="text" className="w-15 p-1 bg-white" placeholder="eg. 15"/></td>
-              <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded">Add</button></td>
-            </tr>
-            <tr className="rounded bg-gray-50">
-              <td className="p-4">A4 Pappers</td>
-              <td className="p-4">Materal</td>
-              <td className="p-4">Box</td>
-              <td className="p-4"> <input type="text" className="w-15 p-1 bg-white" placeholder="eg. 15"/></td>
-              <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded">Add</button></td>
-            </tr>
+            ))}
           </tbody>
         </table>
       </div>

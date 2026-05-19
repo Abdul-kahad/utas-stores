@@ -1,5 +1,5 @@
 
-const Adminview = () => {
+const ProcurementAnalytics = () => {
   return (
     <div className="admin view">
       <div className="p-5 flex flex-col gap-5">
@@ -52,4 +52,4 @@ const Adminview = () => {
   )
 }
 
-export default Adminview
+export default ProcurementAnalytics

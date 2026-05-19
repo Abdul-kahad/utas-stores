@@ -13,7 +13,7 @@ const Flow = () => {
       <h2 className="text-3xl font-bold text-center mb-10 text-gray-600">How It Works</h2>
       <div className="flex flex-wrap gap-8 justify-center">
         {flow.map((item, index) => (
-        <div className="w-60 rounded-md gap-5 p-5 shadow-lg bg-white">
+        <div className="w-60 rounded-md gap-5 p-5 shadow-lg bg-white" key={index}>
           <div className="p-5 bg-gray-100 rounded-full w-12 h-12 flex items-center justify-center mb-5">
             <span>{item.icon}</span>
           </div>

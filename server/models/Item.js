@@ -20,12 +20,12 @@ const itemSchema = mongoose.Schema({
   },
   reorderLevel: {
     type: Number,
-    required: true
+      default: 10
   },
   supplier: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Supplier',
-    required: true,
+    default: null,
     index: true
   }
 

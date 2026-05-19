@@ -1,5 +1,29 @@
+import { useEffect, useState } from "react"
+import {userRequests} from '../../../services/requestService'
 
 const DepartmentRequests = () => {
+  const statusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "border text-yellow-500 border-yellow-500"
+      case "approved":
+        return "border text-green-500 border-green-500"
+      case "rejected":
+        return "border text-red-500 border-red-500"
+      default:
+        return "border text-gray-500 border-gray-500"
+    }
+  }
+
+  const [requests, setRequests] = useState([])
+        useEffect(() => {
+          const fetchRequests = async () => {
+            const results = await userRequests()
+            setRequests(results)
+          }
+          fetchRequests()
+        },[])
+  // console.log('requests:', requests)
   return (
     <div className="DepartmentRequests p-5">
       <table className="table-auto w-full text-left ">
@@ -10,42 +34,20 @@ const DepartmentRequests = () => {
             <th className="rounded p-4">Unit</th>
             <th className="rounded p-4">Quantity</th>
             <th className="rounded p-4">Status</th>
-            <th className="rounded p-4">Action</th>
+            <th className="rounded p-4"></th>
           </tr>
         </thead>
         <tbody >
-          <tr className="rounded bg-gray-100">
-            <td className="p-4">Lenovo Laptop</td>
-            <td className="p-4">Electonics</td>
-            <td className="p-4">Pcs</td>
-            <td className="p-4">8</td>
-            <td className="p-4"><button className="px-3 py-1 bg-yellow-500 text-white rounded">Pending</button></td>
-            <td className="p-4"><button className="px-3 py-1 bg-red-500 text-white rounded">Cancel</button></td>
-          </tr>
-          <tr className="rounded bg-gray-50">
-            <td className="p-4">Office Chier</td>
-            <td className="p-4">Furniture</td>
-            <td className="p-4">Pcs</td>
-            <td className="p-4">3</td>
-            <td className="p-4"><button className="px-3 py-1 bg-blue-500 text-white rounded">Approve</button></td>
-            <td className="p-4"><button className="px-3 py-1 bg-red-500 text-white rounded">Cancel</button></td>
-          </tr>
-          <tr className="rounded bg-gray-100">
-            <td className="p-4">Hand Sanitiser</td>
-            <td className="p-4">Maintenence</td>
-            <td className="p-4">Box</td>
-            <td className="p-4">56</td>
-            <td className="p-4"><button className="px-3 py-1 bg-green-500 text-white rounded">Approve</button></td>
-            <td className="p-4"><button className="px-3 py-1 bg-red-500 text-white rounded">Cancel</button></td>
-          </tr>
-          <tr className="rounded bg-gray-50">
-            <td className="p-4">A4 Pappers</td>
-            <td className="p-4">Materal</td>
-            <td className="p-4">Box</td>
-            <td className="p-4">13</td>
-            <td className="p-4"><button className="px-3 py-1 bg-red-500 text-white rounded">Rejected</button></td>
-            <td className="p-4"><button className="px-3 py-1 bg-red-500 text-white rounded">Cancel</button></td>
-          </tr>
+          {requests.map(request => (
+            <tr className="rounded bg-gray-100 border-b border-gray-200" key={request._id}>
+              <td className="p-4">{request.items[0]?.item.name}</td>
+              <td className="p-4">{request.items[0]?.item.category}</td>
+              <td className="p-4">{request.items[0]?.item.unit}</td>
+              <td className="p-4">{request.items[0]?.quantity}</td>
+              <td className="p-4"><span className={`px-2 pb-1 rounded-3xl ${statusColor(request.status)}`}>{request.status}</span></td>
+              <td className="p-4"><button className="px-3 py-1 bg-gray-500 text-white rounded">Cancel</button></td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

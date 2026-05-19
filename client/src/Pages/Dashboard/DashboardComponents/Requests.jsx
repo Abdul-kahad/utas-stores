@@ -1,9 +1,42 @@
+import { Fragment, useEffect, useState } from "react"
+import {getRequests, approveRequest, rejectRequest} from '../../../services/requestService'
 
 const Requests = () => {
+   const [requests, setRequests] = useState([])
+        useEffect(() => {
+          const fetchRequests = async () => {
+            const results = await getRequests()
+            setRequests(results)
+          }
+          fetchRequests()
+        },[requests])
+  
+    const approveRequestHandler = async (requestId) => {
+      const result = await approveRequest(requestId)
+      console.log('Approve request result:', result)
+    }
+  
+    const rejectRequestHandler = async (requestId) => {
+      await rejectRequest(requestId)
+    }
+
+    const statusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "border text-yellow-500 border-yellow-500"
+      case "approved":
+        return "border text-green-500 border-green-500"
+      case "rejected":
+        return "border text-red-500 border-red-500"
+      default:
+        return "border text-gray-500 border-gray-500"
+    }
+  }
+
   return (
-    <div className="inventory p-5">
+    <div className="requests p-5">
       <table className="table-auto w-full text-left ">
-        <thead>
+        <thead className="text-sm">
           <tr>
             <th className="rounded p-4">Requested Item(s)</th>
             <th className="rounded p-4">Category</th>
@@ -14,43 +47,21 @@ const Requests = () => {
             <th className="rounded p-4">Action</th>
           </tr>
         </thead>
-        <tbody >
-          <tr className="rounded bg-gray-100">
-            <td className="p-4">Lenovo Laptop</td>
-            <td className="p-4">Electonics</td>
-            <td className="p-4">Pcs</td>
-            <td className="p-4">8</td>
-            <td className="p-4">Infotess</td>
-            <td className="p-4">Pending</td>
-            <td className="p-4"> <button className="px-3 py-1 bg-green-500 text-white rounded">Approve</button> <button className="px-3 py-1 bg-red-500 text-white rounded">Reject</button></td>
-          </tr>
-          <tr className="rounded bg-gray-50">
-            <td className="p-4">Office Chier</td>
-            <td className="p-4">Furniture</td>
-            <td className="p-4">Pcs</td>
-            <td className="p-4">3</td>
-            <td className="p-4">SRC</td>
-            <td className="p-4">Pending</td>
-            <td className="p-4"> <button className="px-3 py-1 bg-green-500 text-white rounded">Approve</button> <button className="px-3 py-1 bg-red-500 text-white rounded">Reject</button></td>
-          </tr>
-          <tr className="rounded bg-gray-100">
-            <td className="p-4">Hand Sanitiser</td>
-            <td className="p-4">Maintenence</td>
-            <td className="p-4">Box</td>
-            <td className="p-4">56</td>
-            <td className="p-4">Public Health</td>
-            <td className="p-4">Approve</td>
-            <td className="p-4"> <button className="px-3 py-1 bg-green-500 text-white rounded">Approve</button> <button className="px-3 py-1 bg-red-500 text-white rounded">Reject</button></td>
-          </tr>
-          <tr className="rounded bg-gray-50">
-            <td className="p-4">A4 Pappers</td>
-            <td className="p-4">Materal</td>
-            <td className="p-4">Box</td>
-            <td className="p-4">13</td>
-            <td className="p-4">Computer Science</td>
-            <td className="p-4">Reject</td>
-            <td className="p-4"> <button className="px-3 py-1 bg-green-500 text-white rounded">Approve</button> <button className="px-3 py-1 bg-red-500 text-white rounded">Reject</button></ td>
-          </tr>
+        <tbody>
+          {requests.map(request => (
+            <tr className="rounded bg-gray-100 border-b border-gray-200" key={request._id}>
+              <td className="p-4">{request.items[0]?.item?.name || 'N/A'}</td>
+              <td className="p-4">{request.items[0]?.item?.category || 'N/A'}</td>
+              <td className="p-4">{request.items[0]?.item?.unit || 'N/A'}</td>
+              <td className="p-4">{request.items[0]?.quantity || 0}</td>
+              <td className="p-4">{request.user?.name || 'N/A'}</td>
+              <td className="p-4"><span className={`px-2 pb-1 rounded-3xl ${statusColor(request.status)}`}>{request.status}</span></td>
+              <td className="p-4"> 
+                <button className="px-3 py-1 bg-green-500 text-white rounded mr-2" onClick={() => approveRequestHandler(request._id)}>Approve</button>
+                <button className="px-3 py-1 bg-red-500 text-white rounded" onClick={() => rejectRequestHandler(request._id)}>Reject</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
