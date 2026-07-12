@@ -73,6 +73,9 @@ const Sidenav = () => {
         <Link to="/dashboard/requests" className="flex items-center gap-3"><i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval</Link>
       </li>
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
+        <Link to="/dashboard/direct-issue" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Direct Issue</Link>
+      </li>
+      <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <Link to="/dashboard/issuing" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Issuing System</Link>
       </li>
 
@@ -116,6 +119,9 @@ const Sidenav = () => {
       </li>
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <Link to="/dashboard/requests" className="flex items-center gap-3"><i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval</Link>
+      </li>
+      <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
+        <Link to="/dashboard/direct-issue" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Direct Issue</Link>
       </li>
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <Link to="/dashboard/issuing" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Issuing System</Link>
@@ -194,7 +200,7 @@ const Sidenav = () => {
   );
 
   return (
-    <aside className="w-[20%] min-h-screen bg-[#0F172A] text-white shadow-lg">
+    <aside className="min-w-[20%] min-h-screen bg-[#0F172A] text-white shadow-lg">
       <div className="text-xl font-bold p-5 border-b border-gray-700 tracking-wide">
         <Link to={'/'} className="hover:text-blue-400 transition-colors">UTAS STORE</Link>
       </div>

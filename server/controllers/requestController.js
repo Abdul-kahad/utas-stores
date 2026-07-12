@@ -19,6 +19,56 @@ const sendRequest = async (req, res) => {
   }
 }
 
+const directIssueItem = async (req, res) => {
+    const adminId = req.user.id; 
+    const { recipientId, item, quantityIssued } = req.body;
+
+    try {
+        if (!recipientId || !item || !quantityIssued) {
+            return res.status(400).json({ message: 'Please provide recipient, item, and quantity.' });
+        }
+
+        const quantity = Number(quantityIssued);
+        if (quantity <= 0) {
+            return res.status(400).json({ message: 'Quantity must be greater than zero.' });
+        }
+
+        const findItem = await Item.findById(item);
+        if (!findItem) return res.status(404).json({ message: 'Item not found.' });
+
+        if (Number(findItem.quantity || 0) < quantity) {
+            return res.status(400).json({ 
+                message: `Insufficient stock. Only ${findItem.quantity || 0} units left.` 
+            });
+        }
+
+        const issueRecord = await Request.create({
+            user: recipientId,             
+            items: [{
+                item: findItem._id,
+                quantity: quantity 
+            }],
+            quantityRequested: quantity, 
+            quantityIssued: quantity,   
+            status: 'issued',             
+            approvedBy: adminId,            
+            issuedAt: new Date()
+        });
+
+        const newTotalQuantity = Number(findItem.quantity) - quantity;
+        await Item.findByIdAndUpdate(findItem._id, { quantity: newTotalQuantity });
+
+        res.status(201).json({ 
+            message: 'Item issued and logged successfully', 
+            record: issueRecord 
+        });
+
+    } catch (error) {
+        console.error('Error executing direct allocation entry:', error);
+        res.status(500).json({ message: 'Internal server error processing distribution ledger.' });
+    }
+};
+
 const userRequests = async (req, res) => {
   const userId = req.user.id
   try {
@@ -127,5 +177,6 @@ module.exports = {
   getRequest,
   approveRequest,
   rejectRequest,
-  fulfillRequest
+  fulfillRequest,
+  directIssueItem
 }

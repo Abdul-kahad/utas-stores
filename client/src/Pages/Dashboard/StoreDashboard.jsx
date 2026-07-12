@@ -5,6 +5,7 @@ import Issuing from "./DashboardComponents/Issuing"
 import Notifications from "./DashboardComponents/Notifications"
 import ReportingAnalytics from "./DashboardComponents/ReportingAnalytics"
 import Requests from "./DashboardComponents/Requests"
+import DirectIssueForm from "./DashboardComponents/DirectIssueForm"
 
 import { useAuth } from "../../context/authContext";
 import { Routes, Route,useNavigate } from "react-router-dom"
@@ -41,6 +42,7 @@ const StoreDashboard = () => {
             <Route path="/dashboard/issuing" element={<Issuing />}/>
             <Route path="/dashboard/notifications" element={<Notifications />}/>
             <Route path="/dashboard/reports" element={<ReportingAnalytics />}/>
+            <Route path="/dashboard/direct-issue" element={<DirectIssueForm />}/>
           </Routes>
         </div>
       </div>

@@ -1,21 +1,13 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/items";
+import API from "../api/api";
 
 export const uploadInventoryExcel = async (file) => {
   try {
     const formData = new FormData();
-    formData.append("file", file); // Must match upload.single('file') parameter naming on server
+    formData.append("file", file);
 
-    // Grab your JWT token dynamically from wherever you persist auth state
     const token = localStorage.getItem("accessToken"); 
 
-    const response = await axios.post(`${API_URL}/import-excel`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await API.post(`/items/import-excel`, formData);
 
     return response.data;
   } catch (error) {

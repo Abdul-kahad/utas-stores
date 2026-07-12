@@ -1,8 +1,8 @@
-import Axios from 'axios'
+import API from "../api/api"
 
 export const register = async(formData) => {
   try {
-    const response = await Axios.post('http://localhost:5000/api/auth/register', formData)
+    const response = await API.post('/auth/register', formData)
     return response.data.message
   } catch (error) {
     console.log('Fail to register an error occured')
@@ -13,7 +13,7 @@ export const register = async(formData) => {
 
 export const userlogin = async(formData) => {
   try {
-    const response = await Axios.post('http://localhost:5000/api/auth/login', formData)
+    const response = await API.post('/auth/login', formData)
     return response.data
   } catch (error) {
     console.log('Fail to login an error occured')
@@ -24,7 +24,7 @@ export const userlogin = async(formData) => {
 
 export const refresh = async() => {
   try {
-    const response = await Axios.post('http://localhost:5000/api/auth/refresh')
+    const response = await API.post('/auth/refresh')
      return response.data
   } catch (error) {
     console.log('Fail to refresh an error occured')
@@ -35,7 +35,7 @@ export const refresh = async() => {
 
 export const logout = async() => {
   try {
-    const response = await Axios.post('http://localhost:5000/api/auth/logout')
+    const response = await API.post('/auth/logout')
      return response.data
   } catch (error) {
     console.log('Fail to logout an error occured')

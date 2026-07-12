@@ -23,7 +23,7 @@ const requestSchema = mongoose.Schema({
   status:{
     type: String,
     default: null,
-    enum: ["pending", "approved", "rejected", "fulfilled"]
+    enum: ["pending", "approved", "rejected", "fulfilled", "issued"]
   },
   approvedBy: {
     type: mongoose.Schema.Types.ObjectId,

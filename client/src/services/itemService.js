@@ -1,12 +1,8 @@
-import Axios from 'axios'
+import API from "../api/api"
 
 export const getItems = async() => {
   try {
-    const response =  await Axios.get('http://localhost:5000/api/items', {
-      headers:{
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    })
+    const response =  await API.get('/items')
     return response.data
   } catch (error) {
     console.log('Fail to get items an error occured')
@@ -16,11 +12,7 @@ export const getItems = async() => {
 
 export const getItem = async(itemId) => {
   try {
-    const response =  await Axios.get(`http://localhost:5000/api/items/${itemId}`, {
-      headers:{
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    })
+    const response =  await API.get(`/items/${itemId}`)
     return response.data
   } catch (error) {
     console.log('Fail to get item an error occured')
@@ -33,12 +25,7 @@ export const addItem = async (formData) => {
   const token = localStorage.getItem('accessToken'); // Ensure this matches what you used in Login.js
 
   try {
-    const response = await Axios.post('http://localhost:5000/api/items', formData, {
-      headers: {
-        // Standard convention is "Authorization" with a capital 'A'
-        'Authorization': `Bearer ${token}` 
-      }
-    });
+    const response = await API.post('/items', formData);
     return response.data.message;
   } catch (error) {
     console.error('Fail to add item an error occured', error);
@@ -47,28 +34,9 @@ export const addItem = async (formData) => {
   }
 }
 
-// export const updateItem = async(itemId, formData) => {
-//   console.log('Updating item with ID:', itemId, 'and data:', formData)
-//   try {
-//     const response = await Axios.put(`http://localhost:5000/api/items/${itemId}`, formData, {
-//       headers:{
-//         authorization: `Bearer ${localStorage.getItem('accessToken')}`
-//       }
-//     })
-//     return response.data.message
-//   } catch (error) {
-//     console.log('Fail to update an error occured', error)
-//     return error.response?.data?.message
-//   }
-// }
-
 export const deleteItem = async(itemId) => {
   try {
-    const response =  await Axios.delete(`http://localhost:5000/api/items/${itemId}`, {
-      headers:{
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    })
+    const response =  await API.delete(`/items/${itemId}`)
     return response.data.message
   } catch (error) {
     console.log('Fail to delete an error occured')

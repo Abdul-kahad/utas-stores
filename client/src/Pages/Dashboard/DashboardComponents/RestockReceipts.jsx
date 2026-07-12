@@ -71,7 +71,7 @@ const RestockReceipts = () => {
             <h2 className="text-3xl font-bold text-gray-700">Restock Receipts</h2>
             <div className="filter">
               <p className='text-xs font-semibold mb-1'>Filter by date</p>
-              <div className='flex gap-4 items-bottom'>
+              <div className='flex gap-4'>
                 <span className='flex flex-col'>
                   <label className='text-xs font-semibold text-gray-500 uppercase' htmlFor="startDate">From date</label>
                   <input 
@@ -97,7 +97,7 @@ const RestockReceipts = () => {
                 <button 
                   type="button"
                   onClick={clearFilters}
-                  className={`text-xs ${(startDate || endDate) ? 'opacity-100' : 'opacity-0' } text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 font-medium px-2 rounded-lg transition-colors`}
+                  className={`text-xs ${(startDate || endDate) ? 'opacity-100' : 'opacity-0' } py-2 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 font-medium px-2 rounded-lg transition-colors`}
                 >
                   <i className="fas fa-times mr-1"></i> Clear Filters
                 </button>

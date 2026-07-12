@@ -1,30 +1,22 @@
-import Axios from 'axios'
+import API from "../api/api"
 
-// 1. GET: Fetch all historical restock receipts
 export const getRestockReceipts = async () => {
   try {
-    const response = await Axios.get('http://localhost:5000/api/receipts', {
+    const response = await API.get('/receipts', {
       headers: {
         authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
     })
-    // Return the array of receipts from your backend
     return response.data
   } catch (error) {
     console.error('Failed to fetch restock receipts:', error)
-    // Return an empty array so your frontend .map() calls don't break
     return []
   }
 }
 
-// 2. POST: Create a new restock receipt record
 export const generateReceipt = async(formData) => {
   try {
-    const response = await Axios.post('http://localhost:5000/api/receipts/create', formData, {
-      headers:{
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    })
+    const response = await API.post('/receipts/create', formData)
     return response.data
   } catch (error) {
     console.log('Failed to create receipt, an error occurred', error)
@@ -32,13 +24,9 @@ export const generateReceipt = async(formData) => {
   }
 }
 
-// 3. GET: Trigger downloadable PDF copy of individual records
 export const triggerReceiptDownload = async (requestId) => {
   try {
-    const response = await Axios.get(`http://localhost:5000/api/requests/download/${requestId}`, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      },
+    const response = await API.get(`/requests/download/${requestId}`, {
       responseType: 'blob' 
     });
 

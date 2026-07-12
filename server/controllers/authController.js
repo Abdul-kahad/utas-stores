@@ -35,12 +35,12 @@ const login = async (req, res) => {
 
     if(!passwordMatch) return res.status(403).json({message: 'Invalid email or password'})
     
-    const accessToken = JWT.sign({id: userExist._id, role: userExist.role}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '30m'})
+    const accessToken = JWT.sign({id: userExist._id, role: userExist.role}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
     const refreshToken = JWT.sign({id: userExist._id}, process.env.JWT_REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       secure: false,
-      sameSite: 'None',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
     res.status(200).json({

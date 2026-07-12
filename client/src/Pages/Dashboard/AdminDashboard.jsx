@@ -19,6 +19,7 @@ import { Routes, Route,useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/authContext";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import AddSupplier from "./DashboardComponents/AddSupplier";
+import DirectIssueForm from "./DashboardComponents/DirectIssueForm";
 
 const AdminDashboard = () => {
   const { logout } = useAuth()
@@ -61,6 +62,7 @@ const AdminDashboard = () => {
           <Route path="/dashboard/reports" element={<ReportingAnalytics />}/>
           <Route path="/dashboard/requestItem" element={<RequestItem />}/>
           <Route path="/dashboard/myrequests" element={<DepartmentRequests />}/>
+          <Route path="/dashboard/direct-issue" element={<DirectIssueForm />}/>
         </Routes>
         </div>
       </div>
