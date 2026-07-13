@@ -39,8 +39,8 @@ const login = async (req, res) => {
     const refreshToken = JWT.sign({id: userExist._id}, process.env.JWT_REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
     res.status(200).json({
