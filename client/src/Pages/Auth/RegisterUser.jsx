@@ -15,7 +15,6 @@ const RegisterUser = () => {
   const [showModal, setShowModal] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
 
-  // Client-side validation guard
   const handleOpenConfirmation = (e) => {
     e.preventDefault() 
     setErrorMsg('')
@@ -35,7 +34,6 @@ const RegisterUser = () => {
     setShowModal(true)
   }
 
-  // Handle core async submission
   const handleSubmit = async () => {
     setLoading(true)
     setShowModal(false)
@@ -45,7 +43,6 @@ const RegisterUser = () => {
       const response = await register(formData)
       setServerMsg(response?.message || "User account created successfully!")
       
-      // Clear out form inputs only on absolute success
       setFormData({
         name: '',
         email: '',
@@ -61,7 +58,7 @@ const RegisterUser = () => {
   }
 
   return (
-    <div className="flex justify-center items-start min-h-[85vh] p-4">
+    <div className="flex justify-center items-start p-4">
       {showModal && (
         <Backdrop 
           title="Register New User?" 
@@ -71,8 +68,8 @@ const RegisterUser = () => {
         />
       )}
 
-      <div className="flex flex-col p-8 bg-white w-full max-w-[650px] mt-10 rounded-xl shadow-xl border border-gray-100">
-        <h2 className="text-2xl text-center font-bold text-gray-700 mb-6">Register a New User</h2>
+      <div className="flex flex-col p-8 bg-white w-full max-w-[650px] mt-15 rounded-xl shadow-xl border border-gray-100">
+        <h2 className="text-2xl text-center font-bold text-gray-700 mb-8">Register a New User</h2>
         
         {serverMsg && (
           <p className="text-green-600 bg-green-50 border border-green-100 text-sm font-medium py-2.5 px-3 rounded-lg mb-5 text-center flex items-center justify-center gap-2">

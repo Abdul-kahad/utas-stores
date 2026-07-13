@@ -9,7 +9,6 @@ const RestockReceipts = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
-  // Fetch dynamic receipt logs asynchronously
   const fetchReceiptData = async () => {
     try {
       const data = await getRestockReceipts()
@@ -63,11 +62,9 @@ const RestockReceipts = () => {
   }
 
   return (
-    <div className="admin view">
-      <div className="p-5 flex flex-col gap-5">
-        
-        {/* Header Summary Panel */}
-        <div className="heading flex justify-between p-3">
+    <div className="procurement view">
+      <div className="p-2 flex flex-col gap-5">
+        <div className="heading flex justify-between p-1">
             <h2 className="text-3xl font-bold text-gray-700">Restock Receipts</h2>
             <div className="filter">
               <p className='text-xs font-semibold mb-1'>Filter by date</p>
@@ -106,9 +103,8 @@ const RestockReceipts = () => {
         </div>
         
 
-        {/* Dynamic Table Container */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overflow-y-auto h-[calc(100vh-14rem)]">
             <table className="table-auto w-full text-left border-collapse">
               <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 <tr>

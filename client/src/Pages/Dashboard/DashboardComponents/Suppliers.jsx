@@ -21,7 +21,10 @@ const Suppliers = () => {
   }, [])
 
   return (
-    <div className="suppliers p-5">
+    <div className="suppliers p-2">
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-700">Suppliers</h2>
+      </div>
       {loading ? (
         <span className="mt-20 w-full flex justify-center">
           <Spinner size='xxxl'/>
@@ -32,7 +35,7 @@ const Suppliers = () => {
         </div>
       ) : (
         <div className="w-full max-w-full">
-          <div className="overflow-x-auto overflow-y-hidden bg-white border border-gray-200 rounded-xl shadow-sm">
+          <div className="overflow-y-auto h-[calc(100vh-12rem)] bg-white border border-gray-200 rounded-xl shadow-sm">
             <table className="table-auto w-full text-left border-collapse">
               
               <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -50,17 +53,14 @@ const Suppliers = () => {
                     key={supplier._id} 
                     className="hover:bg-gray-50/70 transition-colors duration-150 odd:bg-white even:bg-gray-50/30"
                   >
-                    {/* Supplier Name */}
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                       {supplier.name || 'N/A'}
                     </td>
-                    
-                    {/* Email (Updated from supplier.contact) */}
+
                     <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
                       {supplier.email || 'N/A'}
                     </td>
-                    
-                    {/* Address (Safely mapping nested object properties) */}
+
                     <td className="px-6 py-4 text-gray-500">
                       {supplier.address ? (
                         <div className="flex flex-col">
@@ -72,7 +72,6 @@ const Suppliers = () => {
                       )}
                     </td>
 
-                    {/* Status Badge (Matches your Mongoose default: 'Active') */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                         supplier.status === 'Inactive' 

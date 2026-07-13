@@ -14,7 +14,6 @@ const StoreAnalytics = () => {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Fetch operational datasets asynchronously
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
@@ -36,7 +35,6 @@ const StoreAnalytics = () => {
     fetchDashboardData()
   }, [])
 
-  // 1. Dynamic Metric Computations
   const totalInventoryCount = items.length
   
   const pendingRequests = requests.filter(
@@ -47,7 +45,6 @@ const StoreAnalytics = () => {
     item => item.quantity <= (item.reorderLevel || 10)
   )
 
-  // Calculates requests approved or processed on the current date (System Context: 2026)
   const issuedTodayCount = requests.filter(req => {
     if (req.status !== 'approved' && req.status !== 'issued') return false
     const actionDate = new Date(req.updatedAt || req.createdAt || Date.now()).toDateString()
@@ -96,7 +93,7 @@ const StoreAnalytics = () => {
         boxPadding: 4
       }
     },
-    cutout: '72%' // Gives a modern cutout ring layout
+    cutout: '72%'
   };
 
   // Helper to safely parse database timestamps
@@ -110,22 +107,18 @@ const StoreAnalytics = () => {
   }
 
   return (
-    <div className="admin view">
+    <div className="storemanager view">
       <div className="p-5 flex flex-col gap-5">
         
-        {/* Welcome Dashboard Banner */}
         <div className="flex justify-between items-center p-6 rounded-xl bg-blue-50/60 border border-blue-100 shadow-sm">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Welcome Back, Store Manager</h2>
-            <p className="text-xs text-gray-500 mt-1">Fulfillment Monitor • Real-time Warehouse Balance Metrics</p>
           </div>
           {loading && <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full animate-pulse">Syncing...</span>}
         </div>
 
-        {/* 2. LIVE METRIC ANALYTICS CARDS ROW */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
           
-          {/* Total Registered Items */}
           <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-amber-50 rounded-lg mr-3">
               <i className="fas fa-box text-3xl text-amber-800"></i>
@@ -136,7 +129,6 @@ const StoreAnalytics = () => {
             </div>
           </div>
 
-          {/* Pending Requests Filter Tally */}
           <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-yellow-50 rounded-lg mr-3">
               <i className="fas fa-file-alt text-3xl text-yellow-600"></i>
@@ -147,7 +139,6 @@ const StoreAnalytics = () => {
             </div>
           </div>
 
-          {/* Low Stock Alerts Array Counter */}
           <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-red-50 rounded-lg mr-3">
               <i className="fas fa-level-down-alt text-3xl text-red-500"></i>
@@ -158,7 +149,6 @@ const StoreAnalytics = () => {
             </div>
           </div>
 
-          {/* Items Outflow Count Tracking */}
           <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-blue-50 rounded-lg mr-3">
               <i className="fas fa-truck text-3xl text-blue-500"></i>
@@ -170,17 +160,15 @@ const StoreAnalytics = () => {
           </div> 
         </div>
 
-        {/* 3. PRIMARY CONTENT GRID SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           
-          {/* Table Element: Strictly Pending Requests */}
           <div className="bg-white lg:col-span-2 overflow-hidden rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
             <div>
               <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
                 <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Pending Department Requests</h3>
                 <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100">{pendingRequests.length} Waiting</span>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-y-auto max-h-[300px]">
                 <table className="table-auto w-full text-left border-collapse">
                   <thead className="bg-gray-50/70 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     <tr>
@@ -219,8 +207,7 @@ const StoreAnalytics = () => {
             </div>
           </div>
 
-          {/* Panel Component: Dynamic Low Stock Alert Panel */}
-          <div className="bg-white lg:col-span-1 rounded-xl border border-gray-200 shadow-sm p-4 flex flex-col max-h-[340px]">
+          <div className="bg-white lg:col-span-1 rounded-xl border border-gray-200 shadow-sm p-4 flex flex-col max-h-[300px]">
             <h2 className='text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3'>Low Stock Alerts</h2>
             <ul className="divide-y divide-gray-100 flex-1 overflow-y-auto pr-1">
               {lowStockItems.length === 0 ? (
@@ -246,11 +233,9 @@ const StoreAnalytics = () => {
           </div>
         </div>
 
-        {/* 4. FOOTER SECONDARY ANALYSIS BLOCKS */}
         <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
           
-          {/* Dynamic Activity Feed Derived from System Dispatch Operations */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[280px]">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col overflow-y-auto h-[300px]">
             <h2 className='text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3'>Recent Inventory Activity</h2>
             <ul className="text-sm text-gray-600 divide-y divide-gray-100 flex-1 overflow-y-auto pr-1">
               {requests.length === 0 ? (
@@ -282,8 +267,7 @@ const StoreAnalytics = () => {
             </ul>
           </div>
 
-          {/* Integrated Chart Placement Area */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[280px]">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col overflow-y-auto h-[300px]">
             <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3">
               Fulfillment Status Distribution
             </h3>

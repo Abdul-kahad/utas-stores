@@ -29,7 +29,6 @@ const AddSupplier = () => {
     setLoading(true);
     setStatus({ type: "", message: "" });
 
-    // Restructure the flat form data into the schema's nested address object
     const payload = {
       name: formData.name,
       email: formData.email,
@@ -45,7 +44,6 @@ const AddSupplier = () => {
       await addSupplier(payload);
       setStatus({ type: "success", message: "Supplier registered successfully!" });
       
-      // Reset form on success
       setFormData({
         name: "",
         email: "",
@@ -65,20 +63,14 @@ const AddSupplier = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Register New Supplier</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Add verified vendors and external distributors to the UTAS procurement database registry.
-        </p>
-      </div>
+    <div className="max-w-4xl mx-auto p-6 space-y-6 mt-5">
+       <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-700">Register New Supplier</h2>
+        </div>
 
-      {/* Workspace Wrapper */}
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* Primary Profile Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Supplier/Company Name</label>
@@ -109,7 +101,6 @@ const AddSupplier = () => {
 
           <hr className="border-gray-100" />
 
-          {/* Structured Address Block */}
           <div>
             <h3 className="text-sm font-semibold text-gray-800 mb-3">Physical Operating Location</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -155,7 +146,6 @@ const AddSupplier = () => {
             </div>
           </div>
 
-          {/* Status Feedback Alerts */}
           {status.message && (
             <div className={`p-3 rounded-lg text-sm font-medium ${
               status.type === "error" ? "bg-red-50 text-red-600 border border-red-100" : "bg-green-50 text-green-600 border border-green-100"
@@ -163,8 +153,7 @@ const AddSupplier = () => {
               {status.message}
             </div>
           )}
-
-          {/* Form Action Controls */}
+          
           <div className="flex justify-end pt-2">
             <button
               type="submit"

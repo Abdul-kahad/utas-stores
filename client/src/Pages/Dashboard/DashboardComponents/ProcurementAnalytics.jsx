@@ -11,7 +11,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const ProcurementAnalytics = () => {
-  // 1. Initialize states to hold your dynamic API datasets
   const [requests, setRequests] = useState([]) 
   const [items, setItems] = useState([])
   const [suppliers, setSuppliers] = useState([])
@@ -36,7 +35,6 @@ const ProcurementAnalytics = () => {
     }
   }
 
-  // 2. Compute dynamic low stock list using the same 10-unit reorder fallback threshold
   const lowStockItems = items.filter(item => item.quantity <= (item.reorderLevel || 10))
 
   useEffect(() => {
@@ -90,20 +88,17 @@ const ProcurementAnalytics = () => {
     <div className="admin view">
       <div className="p-5 flex flex-col gap-5">
         
-        {/* Procurement Dashboard Banner */}
         <div className="flex justify-between items-center p-6 rounded-xl bg-blue-50/60 border border-blue-100 shadow-sm">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Procurement Dashboard</h2>
-            <p className="text-xs text-gray-500 mt-1">Supply Chain Metrics • Reorder Requests & Vendor Pipelines</p>
           </div>
           {loading && (
             <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full animate-pulse">
-              Syncing Ledger...
+              Syncing...
             </span>
           )}
         </div>
 
-        {/* Live Counters Summary Row */}
         <div className="grid gap-5">
           <div className="grid grid-cols-3 gap-5">
             
@@ -140,7 +135,6 @@ const ProcurementAnalytics = () => {
           </div>
         </div>
 
-        {/* Middle Row: Restock Demands & Supplier Directory */}
         <div className="grid grid-cols-2 gap-5">
           
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[240px]">
@@ -182,7 +176,6 @@ const ProcurementAnalytics = () => {
 
         </div>
 
-        {/* Bottom Row: Purchase History & Integrated Analytics Trends */}
         <div className="grid grid-cols-5 gap-5">
           
           <div className="bg-white col-span-3 rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[300px]">

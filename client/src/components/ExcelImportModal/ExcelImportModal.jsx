@@ -3,7 +3,6 @@ import { uploadInventoryExcel } from "../../services/importService"
 
 const ExcelImportModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
-  // ADD THESE MISSING STATES
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
   const [summary, setSummary] = useState(null);
@@ -14,6 +13,7 @@ const ExcelImportModal = ({ onClose }) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
       setStatusMessage(null);
+      setSummary(null);
     }
   };
 
@@ -22,62 +22,85 @@ const ExcelImportModal = ({ onClose }) => {
     if (!file) return;
 
     setLoading(true);
-    setStatusMessage({ type: "info", text: "Uploading..." });
+    setStatusMessage({ type: "info", text: "Processing spreadsheet..." });
 
     try {
       const result = await uploadInventoryExcel(file);
-      setStatusMessage({ type: "success", text: result.message });
+      
+      setStatusMessage({ type: "success", text: result.message || "Catalog synced successfully!" });
       setSummary(result.summary);
-      console.log(result.summary)
+      console.log("Upload Summary:", result.summary);
+      
       setFile(null); 
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; 
+      }
     } catch (error) {
+      const backendError = error.response?.data?.message || error.message || "Failed to sync inventory.";
       setStatusMessage({ 
           type: "error", 
-          text: error.message || "Failed to sync inventory." 
+          text: backendError
       });
     } finally {
       setLoading(false);
     }
   };
 
+  // Helper to dynamically style status messages safely
+  const getStatusColor = () => {
+    if (!statusMessage) return "";
+    if (statusMessage.type === "error") return "text-red-600 bg-red-50 border-red-200";
+    if (statusMessage.type === "info") return "text-blue-600 bg-blue-50 border-blue-200";
+    return "text-green-600 bg-green-50 border-green-200"; 
+  };
+
   return (
-    <div className="p-10 border-2 border-dashed border-gray-400">
-      <h3 className="mb-4">Upload Catalog Spreadsheet</h3>
+    <div className="p-10 border-2 border-dashed border-gray-300 rounded-xl bg-white relative max-w-full mx-auto shadow-lg">
+
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">Upload Catalog Spreadsheet</h3>
       
       <input 
         type="file" 
         ref={fileInputRef}
         onChange={handleFileChange}
         className="hidden"
-        accept=".xlsx"
+        accept=".xlsx, .xls" 
       />
 
-      <button 
-        onClick={() => fileInputRef.current.click()}
-        className="bg-gray-600 text-white px-4 py-2 rounded mr-2"
-      >
-        Select Excel File
-      </button>
+      <div className="flex gap-2">
+        <button 
+          onClick={() => fileInputRef.current.click()}
+          className="bg-gray-700 hover:bg-gray-800 transition-colors text-white px-4 py-2 rounded font-medium"
+          disabled={loading}
+        >
+          Select Excel File
+        </button>
+        
+      </div>
 
       {file && (
-        <>
-          <p className="mt-4 text-green-600">Selected: {file.name}</p>
-          {/* THIS BUTTON TRIGGERS THE UPLOAD */}
+        <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <p className="text-gray-700 font-medium">Selected File:</p>
+          <p className="text-sm text-green-600 truncate mb-4">{file.name}</p>
           <button 
             onClick={handleSubmit}
             disabled={loading}
-            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition-colors disabled:opacity-50"
           >
-            {loading ? "Processing..." : "Submit File"}
+            {loading ? "Uploading..." : "Upload"}
           </button>
-        </>
+        </div>
       )}
 
-      {/* Show Messages */}
-      {statusMessage && (
-        <p className={`mt-4 ${statusMessage.type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
-          {statusMessage.text}
-        </p>
+      {summary && (
+        <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600">
+          <p className="font-semibold text-gray-700 mb-1">Import Report:</p>
+          <ul className="list-disc list-inside">
+            <li>Created: {summary.newItemsRegistered || 0} items</li>
+            <li>Updated: {summary.existingItemConfigsUpdated || 0} items</li>
+            <li>Skipped/Errors: {summary.totalRowsParsed || 0} rows</li>
+          </ul>
+        </div>
       )}
     </div>
   );

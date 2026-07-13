@@ -83,7 +83,7 @@ const DirectIssueForm = () => {
   };
 
   return (
-    <div className="p-4 flex justify-center items-start min-h-[85vh]">
+    <div className="p-2 flex justify-center items-start">
       <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-[600px] bg-white shadow-xl border border-gray-100 p-6 rounded-xl mt-4">
         <h2 className="text-xl font-bold text-gray-800 mb-1 text-center">Direct Manual Allocation</h2>
 
@@ -132,14 +132,14 @@ const DirectIssueForm = () => {
             <label className="font-semibold text-gray-600 text-sm mb-1 block">Category</label>
             <input
               className="mb-4 w-full p-2.5 border border-gray-200 rounded-lg bg-gray-50 text-gray-400 text-sm cursor-not-allowed focus:outline-none"
-              type="text" value={formData.category} placeholder="Auto-calculated" readOnly
+              type="text" value={formData.category} readOnly
             />
           </div>
           <div>
             <label className="font-semibold text-gray-600 text-sm mb-1 block">Unit</label>
             <input
               className="mb-4 w-full p-2.5 border border-gray-200 rounded-lg bg-gray-50 text-gray-400 text-sm cursor-not-allowed focus:outline-none"
-              type="text" value={formData.unit} placeholder="Auto-calculated" readOnly
+              type="text" value={formData.unit} readOnly
             />
           </div>
         </div>
@@ -150,7 +150,7 @@ const DirectIssueForm = () => {
           type="number"
           min="1"
           className="mb-6 p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition-all disabled:bg-gray-50 text-gray-700"
-          placeholder="Enter quantity physically handed over"
+          placeholder="Enter quantity"
           value={formData.quantityIssued}
           onChange={(e) => setFormData({ ...formData, quantityIssued: e.target.value })}
           disabled={loading}

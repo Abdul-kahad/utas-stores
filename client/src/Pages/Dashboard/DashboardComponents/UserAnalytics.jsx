@@ -18,7 +18,6 @@ const UserAnalytics = () => {
     try {
       setLoading(true)
       const results = await getRequests()
-      // Defends against backend failures or non-array responses
       setRequests(Array.isArray(results) ? results : [])
     } catch (error) {
       console.error("Error loading personal request analytics:", error)
@@ -31,13 +30,11 @@ const UserAnalytics = () => {
     fetchUserRequests()
   }, [])
 
-  // Derived metrics calculated efficiently on each render pass
   const totalRequests = requests.length
   const pendingRequests = requests.filter(r => (r.status || 'pending').toLowerCase() === 'pending').length
   const approvedRequests = requests.filter(r => ['approved', 'fulfilled'].includes((r.status || '').toLowerCase())).length
   const rejectedRequests = requests.filter(r => (r.status || '').toLowerCase() === 'rejected').length
 
-  // Safely extracts the employee/user's name from data records if available
   const activeUserName = requests[0]?.user?.name || 'User'
 
   // Chart.js Configurations mapping request outcomes
@@ -88,20 +85,17 @@ const UserAnalytics = () => {
         <div className="flex justify-between items-center p-6 rounded-xl bg-blue-50/60 border border-blue-100 shadow-sm">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Welcome back, {activeUserName}</h2>
-            <p className="text-xs text-gray-500 mt-1">Personal Desk • Track your active inventory allocation requests</p>
           </div>
           {loading && (
             <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full animate-pulse">
-              Syncing Desk...
+              Syncing...
             </span>
           )}
         </div>
 
-        {/* Dynamic Analytics Counters Grid */}
         <div className="grid gap-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             
-            {/* Total Personal Requests Counter */}
             <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
               <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-gray-50 rounded-lg mr-3">
                 <i className="fas fa-file-invoice text-2xl text-gray-600"></i>
@@ -112,7 +106,6 @@ const UserAnalytics = () => {
               </div>
             </div>
 
-            {/* Pending Requests Counter */}
             <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
               <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-amber-50 rounded-lg mr-3">
                 <i className="fas fa-hourglass-half text-2xl text-amber-600"></i>
@@ -123,7 +116,6 @@ const UserAnalytics = () => {
               </div>
             </div>
 
-            {/* Approved Requests Counter */}
             <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
               <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-green-50 rounded-lg mr-3">
                 <i className="fas fa-check-circle text-2xl text-green-600"></i>
@@ -134,7 +126,6 @@ const UserAnalytics = () => {
               </div>
             </div>
 
-            {/* Rejected Requests Counter */}
             <div className="flex items-center p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
               <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-red-50 rounded-lg mr-3">
                 <i className="fas fa-times-circle text-2xl text-red-500"></i>
@@ -148,7 +139,6 @@ const UserAnalytics = () => {
           </div>
         </div>
 
-        {/* Core Actions & Information Ledger */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           
           <div 
@@ -215,7 +205,6 @@ const UserAnalytics = () => {
 
         </div>
 
-        {/* Integrated Fulfillment Share Metrics Area */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[280px]">
           <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3">
             Request Fulfillment Rate

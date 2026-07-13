@@ -36,7 +36,7 @@ const ProcurementDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="h-screen overflow-y-auto p-5">
+        <div className="h-[calc(100vh-70px)] p-5 overflow-y-auto">
           <Routes>
             <Route path="/dashboard/procurement" element={<ProcurementAnalytics />}/>
             <Route path="/dashboard/additem" element={<Additem />}/>

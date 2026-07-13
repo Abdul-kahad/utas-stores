@@ -71,7 +71,7 @@ const Inventory = () => {
   }
   
   return (
-    <div className="inventory p-5">
+    <div className="inventory p-2">
       {showModal ? <Backdrop title="Delete Item?" action="Are you sure you want to delete this item" confirm={() => deleteItemHandler(itemId)} cancel={() => setShowModal(false)}/> : ''}
       {loading ? (
         <span className="mt-20 w-full flex justify-center">
@@ -82,7 +82,7 @@ const Inventory = () => {
           No Items registered in the database yet.
         </div>
       ) : 
-      <div className="w-full  max-w-full">
+      <div className="w-full">
         <div className="heading flex justify-between p-3 mb-4">
           <h2 className="text-3xl font-bold text-gray-700">Inventory Items</h2>
           {/* The Excel Export Trigger Button */}
@@ -100,7 +100,7 @@ const Inventory = () => {
           Export to Excel
         </button>
         </div>
-        <div className="overflow-x-auto overflow-y-hidden bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="overflow-x-auto overflow-y-auto h-[calc(100vh-12rem)] bg-white border border-gray-200 rounded-xl shadow-sm">
           <table className="table-auto w-full text-left border-collapse">
             
             <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">

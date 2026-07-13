@@ -40,7 +40,10 @@ const Requests = () => {
     }
 
   return (
-    <div className="requests p-5">
+    <div className="requests p-4">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold text-gray-700">Requests and Approvals</h2>
+        </div>
       {showModal && action == 'approving' ? <Backdrop title="Approve Request?" action="Are you sure you want to approve this request" confirm={() => approveRequestHandler(reqId)} cancel={() => setShowModal(false)}/> : ''}
       {showModal && action == 'rejecting' ? <Backdrop title="Reject Request?" action="Are you sure you want to reject this request" confirm={() => rejectRequestHandler(reqId)} cancel={() => setShowModal(false)}/> : ''}
       {loading ? (
@@ -52,7 +55,7 @@ const Requests = () => {
             No Requests registered in the database yet.
           </div>
         ) :  
-        <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="overflow-x-auto overflow-y-auto h-[calc(100vh-12rem)] bg-white border border-gray-200 rounded-xl shadow-sm">
           {message && <p className="text-red-600 text-center my-1">{message}</p> }
           <table className="table-auto w-full text-left border-collapse">
             <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">

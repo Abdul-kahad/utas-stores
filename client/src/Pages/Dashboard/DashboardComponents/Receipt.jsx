@@ -21,7 +21,6 @@ const Receipt = () => {
     unit: ''
   })
 
-  // Fetch all active supply vendors
   const fetchSuppliers = async () => {
     try {
       const results = await getSuppliers()
@@ -31,7 +30,6 @@ const Receipt = () => {
     }
   }
 
-  // Fetch master inventory stock items
   const fetchItems = async () => {
     try {
       const results = await getItems()
@@ -67,15 +65,14 @@ const Receipt = () => {
       setFormData({
         ...formData,
         item: selectedOption.value,
-        category: rawItem.category || '',  // Auto pre-fill readOnly card elements
-        unit: rawItem.unit || ''           // Auto pre-fill readOnly card elements
+        category: rawItem.category || '', 
+        unit: rawItem.unit || ''          
       });
     } else {
       setFormData({ ...formData, item: '', category: '', unit: '' });
     }
   };
 
-  // Handle Searchable Supplier changes
   const handleSupplierChange = (selectedOption) => {
     if (serverMsg) setServerMsg('')
     
@@ -108,7 +105,6 @@ const Receipt = () => {
         setServerMsg(response.message || "Receipt recorded successfully!")
       }
       
-      // Flash purge states cleanly back to blank controlled fields
       setFormData({
         supplier: '',
         item: '', 
@@ -125,7 +121,7 @@ const Receipt = () => {
   }
 
   return (
-    <div className="additem p-4 flex justify-center min-h-[85vh] items-start">
+    <div className="additem p-4 flex justify-center items-start">
       {showModal && (
         <Backdrop 
           title="Update Item Inventory?" 
@@ -186,7 +182,6 @@ const Receipt = () => {
           </div>
         </div>
 
-        {/* Inbound Counting Metrics */}
         <label className="font-semibold text-gray-600 text-sm mb-1">Quantity Received</label>
         <input
           className="mb-4 p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-500/20 focus:border-gray-600 outline-none transition-all disabled:bg-gray-50 text-sm"
@@ -216,7 +211,6 @@ const Receipt = () => {
           />
         </div>
 
-        {/* Form CTA Trigger Button */}
         <button 
           type="button" 
           disabled={loading}

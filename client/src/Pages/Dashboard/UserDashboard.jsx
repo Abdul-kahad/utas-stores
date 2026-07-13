@@ -32,7 +32,7 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        <div className="h-screen overflow-y-auto p-5">
+        <div className="h-[calc(100vh-70px)] p-5 overflow-y-auto">
           <Routes>
             <Route path="/dashboard/department_user" element={<UserAnalytics />}/>
             <Route path="/dashboard/requestItem" element={<RequestItem />}/>

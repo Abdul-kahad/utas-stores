@@ -24,7 +24,6 @@ const AddItem = () => {
     setLoading(true);
     setStatus({ type: "", message: "" });
 
-    // Ensure reorderLevel is a number
     const payload = {
       ...formData,
       reorderLevel: parseInt(formData.reorderLevel, 10)
@@ -49,10 +48,9 @@ const AddItem = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Register Inventory Items</h1>
-        <p className="text-sm text-gray-500 mt-1">Add new asset classifications to the UTAS Central Store database registry.</p>
-      </div>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-700">Registered Inventory Items</h2>
+        </div>
 
       <div className="flex border-b border-gray-200">
         <button
@@ -77,7 +75,6 @@ const AddItem = () => {
         {activeTab === "manual" ? (
           <form onSubmit={handleManualSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Form Fields */}
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Item Description Name</label>
                 <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" required />
@@ -101,7 +98,6 @@ const AddItem = () => {
               </div>
             </div>
 
-            {/* Status Feedback */}
             {status.message && (
               <p className={`text-sm font-medium ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
                 {status.message}
@@ -120,7 +116,15 @@ const AddItem = () => {
           </form>
         ) : (
           <div className="space-y-6">
-            {/* Bulk Upload Section */}
+            <div className="">
+              <p className="text-sm font-semibold">Please format your Excel file columns according to the provided template before uploading.</p>
+              <div className="flex w-full mt-4 text-sm font-medium text-gray-700">
+                <span className="p-2 border border-gray-500 w-28">Item Name</span>
+                <span className="p-2 border border-gray-500 w-28">Category</span>
+                <span className="p-2 border border-gray-500 w-28">Unit</span>
+                <span className="p-2 border border-gray-500 w-28">Reorder Level</span>
+              </div>
+            </div>
             <ExcelImportModal isOpen={true} />
           </div>
         )}

@@ -21,7 +21,10 @@ const Users = () => {
       fetchUsers()
     },[])
   return (
-    <div className="users p-6">
+    <div className="users p-2">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold text-gray-700">Registered System Users</h2>
+        </div>
       {loading ? (
           <span className="mt-20 w-full flex justify-center">
             <Spinner size='xxxl'/>
@@ -31,7 +34,7 @@ const Users = () => {
             No Users registered in the database yet.
           </div>
         ) :  
-      <div className="overflow-hidden bg-white border border-gray-200 rounded-xl shadow-sm">
+      <div className="overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-sm h-[calc(100vh-12rem)]">
         <table className="table-auto w-full text-left border-collapse">
           <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
             <tr>

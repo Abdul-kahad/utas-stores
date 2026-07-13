@@ -23,7 +23,10 @@ const Restocked = () => {
           fetchItems()
         },[])
   return (
-    <div className="restocked p-5 w-full max-w-full">
+    <div className="restocked p-2">
+       <div className="mb-4">
+          <h2 className="text-2xl font-bold text-gray-700">Inventory Items</h2>
+        </div>
       {loading ? (
           <span className="mt-20 w-full flex justify-center">
             <Spinner size='xxxl'/>
@@ -33,7 +36,7 @@ const Restocked = () => {
             No Item registered in the database yet.
           </div>
         ) : 
-      <div className="overflow-x-auto overflow-y-hidden bg-white border border-gray-200 rounded-xl shadow-md">
+      <div className="overflow-y-auto h-[calc(100vh-12rem)] bg-white border border-gray-200 rounded-xl shadow-md">
         <table className="table-auto w-full text-left border-collaps">
         <thead className="bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-600 uppercase tracking-wider">
           <tr >
@@ -51,7 +54,7 @@ const Restocked = () => {
               <td className="px-6 py-4 text-gray-500 whitespace-nowrap">{item.category}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.unit}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.supplier}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.supplier || 'N/A'}</td>
             </tr>))}
         </tbody>
       </table>

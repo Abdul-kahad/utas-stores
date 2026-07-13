@@ -71,7 +71,10 @@ const RequestItem = () => {
   };
 
   return (
-    <div className="RequestItem p-5 w-full max-w-full">
+    <div className="RequestItem p-2">
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-700">Store Items</h2>
+      </div>
       {showModal && (
         <Backdrop 
           title="Send Request?" 
@@ -89,7 +92,7 @@ const RequestItem = () => {
         <div className="text-center py-12 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-500 text-sm italic">
           No items avilable.
         </div>
-      ) : (<div className="overflow-x-auto overflow-y-hidden bg-white border border-gray-200 rounded-xl shadow-sm">
+      ) : (<div className="overflow-y-auto h-[calc(100vh-12rem)] bg-white border border-gray-200 rounded-xl shadow-sm">
         {message && <p className="text-red-600 text-center my-1">{message}</p> }
         <table className="table-auto w-full text-left border-collapse">
           <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">

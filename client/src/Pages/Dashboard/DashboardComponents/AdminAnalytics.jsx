@@ -65,8 +65,6 @@ const AdminAnalytics = () => {
   return (
     <div className="admin view">
       <div className="p-5 flex flex-col gap-5">
-        
-        {/* Top Stats Cards Grid */}
         <div className="grid grid-cols-4 gap-5">
           <div className="flex items-center p-4 bg-white rounded shadow-md">
             <div className="flex justify-center items-center h-[3.5rem] w-[3.5rem] bg-yellow-50 rounded mr-2">
@@ -109,10 +107,8 @@ const AdminAnalytics = () => {
           </div>    
         </div>
 
-        {/* Chart and Notifications Section */}
         <div className="grid grid-cols-5 gap-5">
-          {/* Working Chart Container */}
-          <div className="bg-white col-span-3 rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[250px]">
+          <div className="bg-white col-span-3 rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col h-[300px]">
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">
               Current Stock Levels
             </h3>
@@ -127,14 +123,13 @@ const AdminAnalytics = () => {
             </div>
           </div>
 
-          <div className="h-[250px] bg-white col-span-2 rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className=" bg-white col-span-2 rounded-xl border border-gray-200 shadow-sm overflow-y-auto h-[300px]">
             <Notifications />
           </div>
         </div>
 
-        {/* Bottom Row: Data Table and Low Stock Alerts */}
         <div className="grid grid-cols-12 gap-5">
-          <div className="bg-white col-span-8 overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+          <div className="bg-white col-span-8 overflow-hidden rounded-xl border border-gray-200 shadow-sm h-[250px] overflow-y-auto">
             <table className="table-auto w-full text-left border-collapse">
               <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 <tr>
@@ -167,7 +162,7 @@ const AdminAnalytics = () => {
                         {request.items?.[0]?.quantity || 0}
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
                           {request.status || 'pending'}
                         </span>
                       </td>
@@ -178,7 +173,7 @@ const AdminAnalytics = () => {
             </table>
           </div>
 
-          <div className="bg-white col-span-4 rounded-xl border border-gray-200 shadow-sm p-4 max-h-[300px] overflow-y-auto">
+          <div className="bg-white col-span-4 rounded-xl border border-gray-200 shadow-sm p-4 max-h-[250px] overflow-y-auto">
             <h2 className='text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3'>Low Stock Items</h2>
             {lowStockItems.length === 0 ? (
               <div className="h-full flex items-center justify-center text-gray-400 italic">

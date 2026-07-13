@@ -84,7 +84,7 @@ const userRequests = async (req, res) => {
 
 const getRequest = async (req, res) => {
   try {
-    const requests = await Request.find().populate('user', 'name').populate('items.item', 'name category unit')
+    const requests = await Request.find().populate('user', 'name').populate('items.item', 'name category unit').populate('approvedBy', 'name')
     // console.log(requests)
     if(!requests) return res.status(404).json({message: 'No requests are currently available'})
     res.status(200).json(requests)

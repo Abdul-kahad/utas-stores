@@ -44,7 +44,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="h-screen overflow-y-auto p-5">
+        <div className="h-[calc(100vh-70px)] p-5 overflow-y-auto">
           <Routes>
           <Route path="/dashboard/admin" element={<AdminAnalytics />}/>
           <Route path="/dashboard/view/users" element={<Users />}/>

@@ -12,7 +12,7 @@ const Hero = () => {
       <div className=" shadow-lg rounded-lg">
         <img className="object-cover rounded-lg" src="dashboard.jpg" alt="dashboard" />
       </div>
-    </div>
+    </div> 
   )
 }
 
