@@ -1,14 +1,19 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { useAuth } from "../../../context/authContext"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 const Sidenav = () => {
-  const { user } = useAuth()
+  const { user } = useAuth();
   const [activeMenu, setActiveMenu] = useState(null);
 
   const toggleMenu = (menuName) => {
     setActiveMenu(activeMenu === menuName ? null : menuName);
   };
+
+  const Chevron = ({ menuName }) => (
+    <i className={`fas ${activeMenu === menuName ? 'fa-chevron-down' : 'fa-chevron-right'} ml-auto text-xs opacity-60 transition-transform duration-200`}></i>
+  );
+
 
   const renderMenu = () => {
     switch (user?.role) {
@@ -19,20 +24,18 @@ const Sidenav = () => {
     }
   };
 
-  // Helper component to render chevron indicators on dropdowns
-  const Chevron = ({ menuName }) => (
-    <i className={`fas ${activeMenu === menuName ? 'fa-chevron-down' : 'fa-chevron-right'} ml-auto text-xs opacity-60 transition-transform duration-200`}></i>
-  );
- 
+
   const admin = (
     <ul className="flex flex-col gap-2 text-lg">
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/admin" className="flex items-center gap-3"><i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard</Link>
+        <Link to="/dashboard/admin" className="flex items-center gap-3">
+          <i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard
+        </Link>
       </li>
       
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('users')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-users w-6 text-center"></i> Manage Users
+          <i className="fas fa-users-cog w-6 text-center"></i> Manage Users
           <Chevron menuName="users" />
         </button>
         {activeMenu === 'users' && (
@@ -46,7 +49,7 @@ const Sidenav = () => {
 
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('inventory')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-boxes w-6 text-center"></i> Manage Store
+          <i className="fas fa-warehouse w-6 text-center"></i> Manage Store
           <Chevron menuName="inventory" />
         </button>
         {activeMenu === 'inventory' && (
@@ -59,7 +62,7 @@ const Sidenav = () => {
 
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('receipts')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-receipt w-6 text-center"></i> Manage Receipts
+          <i className="fas fa-file-invoice-dollar w-6 text-center"></i> Manage Receipts
           <Chevron menuName="receipts" />
         </button>
         {activeMenu === 'receipts' && (
@@ -69,19 +72,28 @@ const Sidenav = () => {
           </div>
         )}
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/requests" className="flex items-center gap-3"><i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval</Link>
+        <Link to="/dashboard/requests" className="flex items-center gap-3">
+          <i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/direct-issue" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Direct Issue</Link>
+        <Link to="/dashboard/direct-issue" className="flex items-center gap-3">
+          <i className="fas fa-shipping-fast w-6 text-center"></i> Direct Issue
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/issuing" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Issuing System</Link>
+        <Link to="/dashboard/issuing" className="flex items-center gap-3">
+          <i className="fas fa-dolly w-6 text-center"></i> Issuing System
+        </Link>
       </li>
 
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('suppliers')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-truck w-6 text-center"></i> Manage Suppliers
+          <i className="fas fa-truck-loading w-6 text-center"></i> Manage Suppliers
           <Chevron menuName="suppliers" />
         </button>
         {activeMenu === 'suppliers' && (
@@ -93,22 +105,33 @@ const Sidenav = () => {
       </li>
 
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/notifications" className="flex items-center gap-3"><i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts</Link>
+        <Link to="/dashboard/notifications" className="flex items-center gap-3">
+          <i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/reports" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> Reporting & Analytics</Link>
+        <Link to="/dashboard/reports" className="flex items-center gap-3">
+          <i className="fas fa-chart-pie w-6 text-center"></i> Reporting & Analytics
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/admin/audit-logs" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> System Audit logs</Link>
+        <Link to="/dashboard/admin/audit-logs" className="flex items-center gap-3">
+          <i className="fas fa-history w-6 text-center text-blue-400"></i> System Audit logs
+        </Link>
       </li>
     </ul>
   );
-               
+
   const store_manager = (
     <ul className="flex flex-col gap-2 text-lg">
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/store_manager" className="flex items-center gap-3"><i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard</Link>
+        <Link to="/dashboard/store_manager" className="flex items-center gap-3">
+          <i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('inventory-sm')} className="w-full flex items-center gap-3 text-left">
           <i className="fas fa-boxes w-6 text-center"></i> Inventory Management
@@ -120,35 +143,56 @@ const Sidenav = () => {
           </div>
         )}
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/requests" className="flex items-center gap-3"><i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval</Link>
+        <Link to="/dashboard/requests" className="flex items-center gap-3">
+          <i className="fas fa-clipboard-check w-6 text-center"></i> Request & Approval
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/direct-issue" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Direct Issue</Link>
+        <Link to="/dashboard/direct-issue" className="flex items-center gap-3">
+          <i className="fas fa-shipping-fast w-6 text-center"></i> Direct Issue
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/issuing" className="flex items-center gap-3"><i className="fas fa-box-open w-6 text-center"></i> Issuing System</Link>
+        <Link to="/dashboard/issuing" className="flex items-center gap-3">
+          <i className="fas fa-dolly w-6 text-center"></i> Issuing System
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/notifications" className="flex items-center gap-3"><i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts</Link>
+        <Link to="/dashboard/notifications" className="flex items-center gap-3">
+          <i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/reports" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> Reporting & Analytics</Link>
+        <Link to="/dashboard/reports" className="flex items-center gap-3">
+          <i className="fas fa-chart-pie w-6 text-center"></i> Reporting & Analytics
+        </Link>
       </li>
     </ul>  
   );
-              
+
   const procurement = (
     <ul className="flex flex-col gap-2 text-lg">
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/procurement" className="flex items-center gap-3"><i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard</Link>
+        <Link to="/dashboard/procurement" className="flex items-center gap-3">
+          <i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/additem" className="flex items-center gap-3"><i className="fas fa-plus-circle w-6 text-center"></i> Add Items</Link>
+        <Link to="/dashboard/additem" className="flex items-center gap-3">
+          <i className="fas fa-plus-circle w-6 text-center"></i> Add Items
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('receipts')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-receipt w-6 text-center"></i> Manage Receipts
+          <i className="fas fa-file-invoice-dollar w-6 text-center"></i> Manage Receipts
           <Chevron menuName="receipts" />
         </button>
         {activeMenu === 'receipts' && (
@@ -158,12 +202,16 @@ const Sidenav = () => {
           </div>
         )}
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/restocked" className="flex items-center gap-3"><i className="fas fa-box w-6 text-center"></i> View Inventory</Link>
+        <Link to="/dashboard/restocked" className="flex items-center gap-3">
+          <i className="fas fa-warehouse w-6 text-center"></i> View Inventory
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <button onClick={() => toggleMenu('suppliers-pro')} className="w-full flex items-center gap-3 text-left">
-          <i className="fas fa-truck w-6 text-center"></i> Manage Suppliers
+          <i className="fas fa-truck-loading w-6 text-center"></i> Manage Suppliers
           <Chevron menuName="suppliers-pro" />
         </button>
         {activeMenu === 'suppliers-pro' && (
@@ -173,11 +221,17 @@ const Sidenav = () => {
           </div>
         )}
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/notifications" className="flex items-center gap-3"><i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts</Link>
+        <Link to="/dashboard/notifications" className="flex items-center gap-3">
+          <i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/reports" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> Reporting & Analytics</Link>
+        <Link to="/dashboard/reports" className="flex items-center gap-3">
+          <i className="fas fa-chart-pie w-6 text-center"></i> Reporting & Analytics
+        </Link>
       </li>
     </ul>
   );
@@ -185,19 +239,33 @@ const Sidenav = () => {
   const department_user = (
     <ul className="flex flex-col gap-2 text-lg">
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/department_user" className="flex items-center gap-3"><i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard</Link>
+        <Link to="/dashboard/department_user" className="flex items-center gap-3">
+          <i className="fas fa-tachometer-alt w-6 text-center"></i> Dashboard
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/requestItem" className="flex items-center gap-3"><i className="fas fa-clipboard-list w-6 text-center"></i> Request Item(s)</Link>
+        <Link to="/dashboard/requestItem" className="flex items-center gap-3">
+          <i className="fas fa-file-signature w-6 text-center"></i> Request Item(s)
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/myrequests" className="flex items-center gap-3"><i className="fas fa-inbox w-6 text-center"></i> Requested Item(s)</Link>
+        <Link to="/dashboard/myrequests" className="flex items-center gap-3">
+          <i className="fas fa-hourglass-half w-6 text-center"></i> Requested Item(s)
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/notifications" className="flex items-center gap-3"><i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts</Link>
+        <Link to="/dashboard/notifications" className="flex items-center gap-3">
+          <i className="fas fa-bell w-6 text-center"></i> Notifications & Alerts
+        </Link>
       </li>
+
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
-        <Link to="/dashboard/reports" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> Reporting & Analytics</Link>
+        <Link to="/dashboard/reports" className="flex items-center gap-3">
+          <i className="fas fa-chart-pie w-6 text-center"></i> Reporting & Analytics
+        </Link>
       </li>
     </ul>
   );
@@ -211,7 +279,7 @@ const Sidenav = () => {
         {renderMenu()}
       </div>
     </aside>
-  )
-}
+  );
+};
 
 export default Sidenav;

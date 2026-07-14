@@ -1,7 +1,19 @@
 const winston = require('winston');
+const mongoose = require('mongoose');
 require('winston-mongodb');
+
+const mongoConnectionPromise = new Promise((resolve) => {
+  if (mongoose.connection.readyState === 1) {
+    resolve(mongoose.connection.getClient());
+  } else {
+    mongoose.connection.once('open', () => {
+      resolve(mongoose.connection.getClient());
+    });
+  }
+});
+
 const logger = winston.createLogger({
-  level: 'info',
+  level: 'info', 
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
@@ -11,16 +23,19 @@ const logger = winston.createLogger({
     }),
     
     new winston.transports.MongoDB({
-      level: 'warn', // Only save 'warn' and 'error' logs (ignores routine http requests)
-      db: process.env.MONGO_URI, 
+      level: 'info',               
+      db: mongoConnectionPromise,  
+      collection: 'system_logs',  
+      
+      capped: true,                
+      cappedSize: 10000000,       
+      cappedMax: 5000,             
+      decolorize: true,           
+      
       options: {
-        useUnifiedTopology: true
+        useUnifiedTopology: true   
       },
-      collection: 'system_logs', // Collection name
-      capped: true, // 👈 CRITICAL: Prevents your database from filling up
-      cappedSize: 10000000, // Max size in bytes (10MB)
-      cappedMax: 5000, // Max number of log documents to keep
-      decolorize: true // Remove color codes before saving to JSON
+      metaKey: 'meta'              
     })
   ]
 });
