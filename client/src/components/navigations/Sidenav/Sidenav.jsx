@@ -98,6 +98,9 @@ const Sidenav = () => {
       <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
         <Link to="/dashboard/reports" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> Reporting & Analytics</Link>
       </li>
+      <li className="hover:bg-[rgba(0,0,0,0.2)] rounded p-2">
+        <Link to="/dashboard/admin/audit-logs" className="flex items-center gap-3"><i className="fas fa-chart-bar w-6 text-center"></i> System Audit logs</Link>
+      </li>
     </ul>
   );
                
@@ -204,7 +207,7 @@ const Sidenav = () => {
       <div className="text-xl font-bold p-5 border-b border-gray-700 tracking-wide">
         <Link to={'/'} className="hover:text-blue-400 transition-colors">UTAS STORE</Link>
       </div>
-      <div className="p-5 overflow-y-auto max-h-screen">
+      <div className="p-5 overflow-x-hidden overflow-y-auto h-[calc(100vh-5rem)]">
         {renderMenu()}
       </div>
     </aside>

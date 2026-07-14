@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Supplier = require('../models/Supplier')
+const { logBusinessAction } = require('../utils/auditLogger')
 
 const getAllSuppliers = async (req, res) => {
   try {
@@ -23,6 +24,7 @@ const getSupplierById = async (req, res) => {
 }
 
 const addSupplier = async (req, res) => {
+  const currentUser = req.user
   try {
     // 1. Destructure the data, including the nested address object
     const { name, email, address } = req.body;
@@ -51,6 +53,17 @@ const addSupplier = async (req, res) => {
       }
     });
 
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'SUPPLIER_CREATED',
+      targetId: newSupplier._id,
+      targetModel: 'Supplier',
+      details: {  name: newSupplier.name },
+                  
+      req 
+      })
+
     res.status(201).json({ message: 'Supplier registered successfully', supplier: newSupplier });
 
   } catch (error) {
@@ -60,6 +73,7 @@ const addSupplier = async (req, res) => {
 }
 
 const updateSupplier = async (req, res) => {
+  const currentUser = req.user
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid supplier id' })
   const { name, contact, address } = req.body
@@ -67,6 +81,17 @@ const updateSupplier = async (req, res) => {
   try {
     const supplier = await Supplier.findByIdAndUpdate(id, { name, contact, address }, { new: true })
     if (!supplier) return res.status(404).json({ message: 'Supplier not found' })
+
+  await logBusinessAction({
+    userId: currentUser.id,
+    userEmail: currentUser?.email,
+    action: 'SUPPLIER_UPDATED',
+    targetId: id,
+    targetModel: 'Supplier',
+    details: {  name: supplier.name},
+                
+    req 
+    })
     res.status(200).json(supplier)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -74,11 +99,22 @@ const updateSupplier = async (req, res) => {
 }
 
 const deleteSupplier = async (req, res) => {
+  const currentUser = req.user
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid supplier id' })
   try {
     const supplier = await Supplier.findByIdAndDelete(id)
     if (!supplier) return res.status(404).json({ message: 'Supplier not found' })
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'SUPPLIER_DELETED',
+      targetId: id,
+      targetModel: 'Supplier',
+      details: {  name: supplier.name },
+                  
+      req 
+      })
     res.status(200).json({ message: 'Supplier deleted successfully' })
   } catch (error) {
     res.status(500).json({ message: error.message })

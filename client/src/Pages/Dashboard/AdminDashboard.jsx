@@ -20,6 +20,7 @@ import { useAuth } from "../../context/authContext";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import AddSupplier from "./DashboardComponents/AddSupplier";
 import DirectIssueForm from "./DashboardComponents/DirectIssueForm";
+import AuditLogs from "./DashboardComponents/AuditLogs";
 
 const AdminDashboard = () => {
   const { logout } = useAuth()
@@ -63,6 +64,7 @@ const AdminDashboard = () => {
           <Route path="/dashboard/requestItem" element={<RequestItem />}/>
           <Route path="/dashboard/myrequests" element={<DepartmentRequests />}/>
           <Route path="/dashboard/direct-issue" element={<DirectIssueForm />}/>
+          <Route path="/dashboard/admin/audit-logs" element={<AuditLogs />}/>
         </Routes>
         </div>
       </div>

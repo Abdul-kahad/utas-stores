@@ -1,17 +1,29 @@
 const Request = require('../models/Request')
 const Item = require('../models/Item')
+const { logBusinessAction } = require('../utils/auditLogger')
 
 const sendRequest = async (req, res) => {
-  const userId = req.user.id
+  const currentUser = req.user
   const {itemId, quantity} = req.body
-  if(!userId || !itemId || !quantity) return res.status(400).json({message: 'bad request'})
+  if(!currentUser.id || !itemId || !quantity) return res.status(400).json({message: 'bad request'})
   try {
     const newRequest = {
-      user: userId,
+      user: currentUser.id,
       items: [{item: itemId, quantity}],
       status: 'pending'
     }
     await Request.create(newRequest)
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'REQUEST_SENT',
+      targetId: newRequest._id,
+      targetModel: 'Request',
+      details: { 
+        requestedItems: newRequest.items.length,
+        status: newRequest.status },    
+      req
+      })
     res.status(200).json({message: 'request sent'})
   } catch (error) {
     console.log('Request error:', error)
@@ -20,7 +32,7 @@ const sendRequest = async (req, res) => {
 }
 
 const directIssueItem = async (req, res) => {
-    const adminId = req.user.id; 
+    const currentUser = req.user
     const { recipientId, item, quantityIssued } = req.body;
 
     try {
@@ -51,12 +63,24 @@ const directIssueItem = async (req, res) => {
             quantityRequested: quantity, 
             quantityIssued: quantity,   
             status: 'issued',             
-            approvedBy: adminId,            
+            approvedBy: currentUser.id,            
             issuedAt: new Date()
         });
 
         const newTotalQuantity = Number(findItem.quantity) - quantity;
         await Item.findByIdAndUpdate(findItem._id, { quantity: newTotalQuantity });
+
+        await logBusinessAction({
+          userId: currentUser.id,
+          userEmail: currentUser?.email,
+          action: 'DIRECT_ISSUED',
+          targetId: issueRecord._id,
+          targetModel: 'Request',
+          details: { 
+            issuedQuantity: issueRecord.items.length,
+            status: issueRecord.status },    
+          req 
+          })
 
         res.status(201).json({ 
             message: 'Item issued and logged successfully', 
@@ -95,7 +119,7 @@ const getRequest = async (req, res) => {
 }
 
 const approveRequest = async (req, res) => {
-  const userId = req.user.id
+  const currentUser = req.user
   const requestId = req.params.id
   if(!requestId) return res.status(400).json({message: 'request id is required'})
   try {
@@ -109,16 +133,28 @@ const approveRequest = async (req, res) => {
       const updateItemQuantity = {
         quantity: item.quantity - request.items[0].quantity
       }
-      // console.log(item.quantity)
-      // console.log(request.items[0].quantity)
-      // console.log(updateItemQuantity)
+      
       const updatedItem = await Item.findByIdAndUpdate(request.items[0].item, updateItemQuantity,{ new: true })
 
       if(updatedItem){
-      const approved = await Request.findByIdAndUpdate(requestId, {status: 'approved', approvedBy: userId})
+      const approved = await Request.findByIdAndUpdate(requestId, {status: 'approved', approvedBy: currentUser.id})
       console.log(approved)
     }
     }
+
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'REQUEST_APPROVED',
+      targetId: requestId,
+      targetModel: ['Request','Item'],
+      details: {
+        name: item.name,
+        category: item.category,
+        status: approved.status },    
+      req 
+      })
+
     res.status(200).json({message: 'Request approved'})
   } catch (error) {
     console.log('Request error:', error)
@@ -127,13 +163,24 @@ const approveRequest = async (req, res) => {
 }
 
 const rejectRequest = async (req, res) => {
-  const userId = req.user.id
+  const currentUser = req.user
   const requestId = req.params.id
   if(!requestId) return res.status(400).json({message: 'request id is required'})
   try {
     const request = await Request.findById(requestId)
     if(!request) return res.status(404).json({message: 'requests not available'})
-    const rejected = await Request.findByIdAndUpdate(requestId, {status: 'rejected', approvedBy: userId})
+    const rejected = await Request.findByIdAndUpdate(requestId, {status: 'rejected', approvedBy: currentUser.id})
+
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'REQUEST_REJECTED',
+      targetId: requestId,
+      targetModel: 'Request',
+      details: {
+        status: rejected.status },    
+      req 
+      })
     res.status(200).json({message: 'Request rejected'})
   } catch (error) {
     console.log('Request error:', error)
@@ -142,7 +189,7 @@ const rejectRequest = async (req, res) => {
 }
 
 const fulfillRequest = async (req, res) => {
-  const userId = req.user.id
+  const currentUser = req.user
   const requestId = req.params.id
   let updateItemquantity
   if(!requestId) return res.status(400).json({message: 'request id is required'})
@@ -163,7 +210,19 @@ const fulfillRequest = async (req, res) => {
       if(quantity < item.quantity) 
       updateItemquantity = await Item.findByIdAndUpdate(item.item, {quantity: quantity - item.quantity})
     }
-    const fulfilled = await Request.findByIdAndUpdate(requestId, {status: 'fulfilled', approvedBy: userId})
+    const fulfilled = await Request.findByIdAndUpdate(requestId, {status: 'fulfilled', approvedBy: currentUser.id})
+
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'REQUEST_FULFILLED',
+      targetId: requestId,
+      targetModel: ['Request','Item'],
+      details: {
+        status: fulfilled.status },    
+      req 
+      })
+
     res.status(200).json({message: 'Request fulfilled'})
   } catch (error) {
     console.log('Request error:', error)

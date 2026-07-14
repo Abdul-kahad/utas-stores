@@ -1,8 +1,10 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const JWT = require('jsonwebtoken')
+const { logBusinessAction } = require('../utils/auditLogger')
 
 const register = async (req, res) => {
+  const currentUser = req.user
   const {name, email,role, password} = req.body
   // console.log(name, email, password)
   if(!name || !email || !role || !password) return res.status(400).json({message: 'please enter all fields'})
@@ -15,6 +17,16 @@ const register = async (req, res) => {
     if(userExist) return res.status(403).json({message: 'email already exist'})
 
     const user = await User.create({name, email, password: hashPassword, role})
+    await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser?.email,
+      action: 'USER_REGISTERD',
+      targetId: user._id,
+      targetModel: 'User',
+      details: {  name: user.name },
+                  
+      req 
+      })
     res.status(201).json({message: 'Registerd Successfully',user})
   } catch (error) {
     console.log(`An error occured: ${error}`)
@@ -35,7 +47,7 @@ const login = async (req, res) => {
 
     if(!passwordMatch) return res.status(403).json({message: 'Invalid email or password'})
     
-    const accessToken = JWT.sign({id: userExist._id, role: userExist.role}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
+    const accessToken = JWT.sign({id: userExist._id, role: userExist.role, email: userExist.email, name: userExist.name}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
     const refreshToken = JWT.sign({id: userExist._id}, process.env.JWT_REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
@@ -43,6 +55,18 @@ const login = async (req, res) => {
       sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
+
+    await logBusinessAction({
+      userId: userExist._id,
+      userEmail: userExist.email,
+      action: 'USER_LOGGEDIN',
+      targetId: userExist._id,
+      targetModel: 'User',
+      details: {  name: userExist.name },
+                  
+      req 
+      })
+
     res.status(200).json({
       success: true,
       message: 'Login Successfully',
@@ -69,7 +93,7 @@ const refresh = async (req, res) => {
     const verifyToken = JWT.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
     const userExist =  await User.findOne({_id: verifyToken.id})
     if(!userExist) return res.status(401).json({message: 'Unauthorized'})
-    const accessToken = JWT.sign({id: userExist._id, role: userExist.role}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
+    const accessToken = JWT.sign({id: userExist._id, role: userExist.role, email: userExist.email, name: userExist.name}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
     res.status(200).json({ accessToken })
    } catch (error) {
     console.log(`Error cannot verify token: ${error.message }`)
@@ -78,6 +102,17 @@ const refresh = async (req, res) => {
 }
 
 const logout = async (req, res) => {
+  const currentUser = req.user
+   await logBusinessAction({
+      userId: currentUser.id,
+      userEmail: currentUser.email,
+      action: 'USER_LOGGEDOUT',
+      targetId: currentUser.id,
+      targetModel: 'User',
+      details: {  name: currentUser.name },
+                  
+      req 
+      })
   res.clearCookie('jwt')
   res.status(200).json({message: 'Logout Successfully'})
 }

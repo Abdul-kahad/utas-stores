@@ -15,6 +15,7 @@ const Supplier = require('./models/Supplier');
 const userRoutes = require('./routes/userRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
 const receiptRoutes = require('./routes/receiptRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const PORT = process.env.PORT || 3000
 
@@ -31,6 +32,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.use(authRoutes)
+app.use(adminRoutes)
 app.use(itemRoutes)
 app.use(requestRoutes)
 app.use(userRoutes)

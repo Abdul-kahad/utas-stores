@@ -1,7 +1,9 @@
 const PDFDocument = require('pdfkit');
 const Request = require('../models/Request');
+const { logBusinessAction } = require('../utils/auditLogger')
 
 const downloadRequestPDF = async (req, res) => {
+    const currentUser = req.user
     try {
         const { id } = req.params;
 
@@ -103,6 +105,16 @@ const downloadRequestPDF = async (req, res) => {
         doc.fontSize(8).fillColor('#A0AEC0').text('Generated automatically via UTAS Store Management System (USMS)', { align: 'center' });
 
         doc.end();
+
+        await logBusinessAction({
+            userId: currentUser.id,
+            userEmail: currentUser?.email,
+            action: 'RECEIPT_DOWNLOADED',
+            targetId: id,
+            targetModel: 'Request',
+            details: { message: 'Item receipt have been dounloaded'},
+            req 
+            })
 
     } catch (error) {
         console.error("PDF Generation Crash Log Context:", error);

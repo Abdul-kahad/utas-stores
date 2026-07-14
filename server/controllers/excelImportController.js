@@ -1,13 +1,17 @@
 const XLSX = require('xlsx');
 const Item = require('../models/Item');
+const { logBusinessAction } = require('../utils/auditLogger')
 
 const importExcelInventory = async (req, res) => {
+    const currentUser = req.user;
+    console.log(currentUser)
+    const file = req.file
     try {
-        if (!req.file) {
+        if (!file) {
             return res.status(400).json({ message: "Please upload an Excel spreadsheet (.xlsx)" });
         }
 
-        const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+        const workbook = XLSX.read(file.buffer, { type: 'buffer' });
         
         // FIX: Access the first sheet safely
         const firstSheetName = workbook.SheetNames;
@@ -53,13 +57,27 @@ const importExcelInventory = async (req, res) => {
             }
         }
 
-        return res.status(200).json({
-            message: "Store item catalog synchronized successfully!",
-            summary: {
+        summary = {
                 totalRowsParsed: sheetData.length,
                 newItemsRegistered: itemsCreated,
                 existingItemConfigsUpdated: itemsUpdated
             }
+
+        await logBusinessAction({
+            userId: currentUser.id,
+            userEmail: currentUser.email,
+            action: 'CATALOG_EXCEL_IMPORT',
+            details: { 
+                fileName: file.originalname,
+                fileSize: file.size,
+                summary: summary 
+            },
+            req
+            });
+
+        return res.status(200).json({
+            message: "Store item catalog synchronized successfully!",
+            summary
         });
 
     } catch (error) {
