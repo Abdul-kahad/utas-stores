@@ -19,8 +19,10 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const PORT = process.env.PORT || 3000
 
+const HOST = process.env.HOST || '0.0.0.0'
+
 app.use(cors({
-        origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+        origin: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true
     }));
@@ -58,4 +60,4 @@ app.use(receiptRoutes)
 //   res.status(201).json({message: 'supplier added'})
 // })
 
-app.listen(PORT, () => console.log(`Server is running on port:  ${PORT}`))
+app.listen(PORT, HOST,   () => console.log(`Server is running on http://${HOST}:${PORT}`))

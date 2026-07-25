@@ -25,7 +25,7 @@ const Requests = () => {
                 }
           }
           fetchRequests()
-        },[requests])
+        },[])
   
     const approveRequestHandler = async (requestId) => {
       setShowModal(false)

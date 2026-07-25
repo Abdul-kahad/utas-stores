@@ -44,7 +44,7 @@ const Login = () => {
     
     <div 
       className="absolute inset-0 bg-[url('images.png')] bg-cover bg-center bg-no-repeat backdrop-blur-sm transition-opacity duration-300"
-      style={{ opacity: 0.01 }}
+      style={{ opacity: 0.04 }}
     />
 
     <div className="w-[40%] z-10">

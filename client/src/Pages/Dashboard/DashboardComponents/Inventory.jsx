@@ -27,7 +27,7 @@ const Inventory = () => {
 
   useEffect(() => {
         fetchItems()
-      },[inventory])
+      },[])
 
   // 1. The Core Excel Export Function
   const handleExportToExcel = () => {
