@@ -43,7 +43,7 @@ const Login = () => {
   <div className="relative h-screen flex items-center justify-center bg-white overflow-hidden">
     
     <div 
-      className="absolute inset-0 bg-[url('images.png')] bg-cover bg-center bg-no-repeat backdrop-blur-sm transition-opacity duration-300"
+      className="absolute inset-0 bg-[url('/images.png')] bg-cover bg-center bg-no-repeat backdrop-blur-sm transition-opacity duration-300"
       style={{ opacity: 0.04 }}
     />
 
