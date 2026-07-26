@@ -2,11 +2,12 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const JWT = require('jsonwebtoken')
 const { logBusinessAction } = require('../utils/auditLogger')
+const isProduction = process.env.NODE_ENV === 'production';
+
 
 const register = async (req, res) => {
 
-  const isProduction = process.env.NODE_ENV === 'production';
-
+  console.log(isProduction)
   const currentUser = req.user
   const { name, email, role, password } = req.body
 
