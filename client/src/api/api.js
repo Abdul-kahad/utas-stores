@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
+const getApiBaseUrl = () => {
+  // 1. If running in production on Vercel / Render
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // 2. Local / Intranet mode: Auto-detect current host IP
+  const currentHost = window.location.hostname; // e.g., '10.251.9.70', '192.168.1.5', or 'localhost'
+  return `http://${currentHost}:5000/api`;
+};
+
+const BASE_URL = getApiBaseUrl()
 
 const API = axios.create({
   baseURL: BASE_URL,

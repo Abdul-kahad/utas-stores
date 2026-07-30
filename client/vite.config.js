@@ -35,5 +35,13 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  // server: {
+  //   host: true, // Listens on all local IPs (0.0.0.0)
+  //   port: 5173,
+  // },
+  // preview: {
+  //   host: true, // Exposes preview build on LAN
+  //   port: 4173,
+  // }
 })
