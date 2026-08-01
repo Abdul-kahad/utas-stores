@@ -272,7 +272,8 @@ const Sidenav = () => {
 
   return (
     <aside className="min-w-[20%] min-h-screen bg-[#0F172A] text-white shadow-lg">
-      <div className="text-xl font-bold p-5 border-b border-gray-700 tracking-wide">
+      <div className="flex items-center gap-2 text-xl font-bold p-5 border-b border-gray-700 tracking-wide">
+        <img src="pwa-192x192.png" alt="logo" className="w-[35px]"/>
         <Link to={'/'} className="hover:text-blue-400 transition-colors">UTAS STORE</Link>
       </div>
       <div className="p-5 overflow-x-hidden overflow-y-auto h-[calc(100vh-5rem)]">

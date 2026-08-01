@@ -8,7 +8,10 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between p-5 px-25 font-[600] bg-[#1E3A8A] text-white items-center fixed w-full">
-      <div className="logo text-xl">UTAS STORE</div>
+      <div className="flex justify-center items-center gap-2">
+        <img src="pwa-192x192.png" alt="logo" className="w-[35px]"/>
+        <p className="logo text-xl font-bold">UTAS STORE</p>
+      </div>
       <div className="navitems">
         <ul className="flex gap-10 items-center">
           {/* <li><Link to={'/'}>Home</Link></li>

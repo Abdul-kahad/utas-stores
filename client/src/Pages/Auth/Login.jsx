@@ -49,8 +49,11 @@ const Login = () => {
 
     <div className="w-[40%] z-10">
       <form onSubmit={handleSubmit} className="flex flex-col p-10 bg-white justify-center rounded-xl shadow-md border border-gray-200">
-        <h2 className="text-4xl text-center font-[600] mb-5">Welcome back</h2>
-        
+        <span className="w-full flex justify-center">
+          <img src="pwa-192x192.png" alt="logo" className="w-35" />
+        </span>
+        <h2 className="text-2xl text-center text-gray-600 mb-5">Welcome back</h2>
+
         {serverMsg && (
           <p className={`text-sm mb-4 text-center ${serverMsg.includes('successful') ? 'text-green-600' : 'text-red-500'}`}>
             {serverMsg}
