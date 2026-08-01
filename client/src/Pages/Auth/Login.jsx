@@ -50,7 +50,7 @@ const Login = () => {
     <div className="w-[40%] z-10">
       <form onSubmit={handleSubmit} className="flex flex-col p-10 bg-white justify-center rounded-xl shadow-md border border-gray-200">
         <span className="w-full flex justify-center">
-          <img src="pwa-192x192.png" alt="logo" className="w-35" />
+          <img src="/pwa-192x192.png" alt="logo" className="w-35" />
         </span>
         <h2 className="text-2xl text-center text-gray-600 mb-5">Welcome back</h2>
 

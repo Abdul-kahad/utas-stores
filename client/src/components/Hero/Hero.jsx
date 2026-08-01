@@ -10,7 +10,7 @@ const Hero = () => {
         <button className="border-2 border-blue-500 px-3 py-2 rounded-md text-blue-500">View Demo</button>
       </div>
       <div className="col-span-4 shadow-lg rounded-lg">
-        <img className="object-cover rounded-lg" src="dashboard.png" alt="dashboard" />
+        <img className="object-cover rounded-lg" src="/dashboard.png" alt="dashboard" />
       </div>
     </div> 
     )
