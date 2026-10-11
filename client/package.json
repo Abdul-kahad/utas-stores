@@ -14,7 +14,7 @@
   },
   "build": {
     "appId": "com.utas.stores",
-    "productName": "UTAS Stores",
+    "productName": "Ghana Health Servicess",
     "files": [
       "dist/**/*",
       "electron/**/*"

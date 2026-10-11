@@ -1,4 +1,4 @@
-# UTAS Stores
+# Ghana Health Servicess
 
 **A centralized, offline-capable inventory and stores management system for university/campus store operations.**
 
@@ -6,11 +6,11 @@
 
 ---
 
-## Why UTAS Stores Exists
+## Why Ghana Health Servicess Exists
 
 Campus central stores traditionally rely on manual logbooks and spreadsheets to track inventory, receipts, and department requests — a process that's slow, error-prone, and offers no visibility into stock movement or accountability.
 
-**UTAS Stores** replaces that with a role-based digital system that lets store managers and procurement officers manage inventory, receive stock, approve department requests, and track every action — automatically, in real time, whether the campus has internet access or not.
+**Ghana Health Servicess** replaces that with a role-based digital system that lets store managers and procurement officers manage inventory, receive stock, approve department requests, and track every action — automatically, in real time, whether the campus has internet access or not.
 
 ---
 
@@ -33,7 +33,7 @@ Campus central stores traditionally rely on manual logbooks and spreadsheets to 
 
 ## Architecture
 
-UTAS Stores is a MERN application designed to run in **three deployment modes** from the same codebase: cloud, LAN intranet, and Electron desktop.
+Ghana Health Servicess is a MERN application designed to run in **three deployment modes** from the same codebase: cloud, LAN intranet, and Electron desktop.
 
 ```
                          ┌─────────────────────────┐
@@ -104,72 +104,81 @@ Audit Log Entry Created
 ## Tech Stack
 
 ### Frontend
-| Category | Technology |
-|---|---|
-| Core | React 19 (JavaScript, ES Modules) |
-| Build tool | Vite |
-| Routing | React Router (`HashRouter`) |
-| Styling | Tailwind CSS |
-| HTTP client | Axios (custom interceptors for token refresh + dynamic server IP) |
-| Charts | Chart.js  |
-| Excel | SheetJS (`xlsx`) |
-| Offline / PWA | vite-plugin-pwa, Workbox, Service Workers |
+
+| Category      | Technology                                                        |
+| ------------- | ----------------------------------------------------------------- |
+| Core          | React 19 (JavaScript, ES Modules)                                 |
+| Build tool    | Vite                                                              |
+| Routing       | React Router (`HashRouter`)                                       |
+| Styling       | Tailwind CSS                                                      |
+| HTTP client   | Axios (custom interceptors for token refresh + dynamic server IP) |
+| Charts        | Chart.js                                                          |
+| Excel         | SheetJS (`xlsx`)                                                  |
+| Offline / PWA | vite-plugin-pwa, Workbox, Service Workers                         |
 
 ### Backend
-| Category | Technology |
-|---|---|
-| Runtime | Node.js |
-| Framework | Express.js |
-| API style | REST |
-| Auth | JWT (access + refresh), bcrypt, HttpOnly cookies |
-| Logging | Winston + winston-mongodb (capped system logs) + custom audit logger |
-| PDF generation | PDFKit |
-| File uploads | Multer |
-| CORS | `cors` |
+
+| Category       | Technology                                                           |
+| -------------- | -------------------------------------------------------------------- |
+| Runtime        | Node.js                                                              |
+| Framework      | Express.js                                                           |
+| API style      | REST                                                                 |
+| Auth           | JWT (access + refresh), bcrypt, HttpOnly cookies                     |
+| Logging        | Winston + winston-mongodb (capped system logs) + custom audit logger |
+| PDF generation | PDFKit                                                               |
+| File uploads   | Multer                                                               |
+| CORS           | `cors`                                                               |
 
 ### Database
-| Category | Technology |
-|---|---|
-| Engine | MongoDB (Atlas for cloud, Community Server for local/offline) |
-| ODM | Mongoose |
+
+| Category | Technology                                                    |
+| -------- | ------------------------------------------------------------- |
+| Engine   | MongoDB (Atlas for cloud, Community Server for local/offline) |
+| ODM      | Mongoose                                                      |
 
 ### Desktop
-| Category | Technology |
-|---|---|
-| Runtime | Electron |
-| Packaging | electron-builder → Windows `.exe` (NSIS) |
-| Dev tooling | concurrently, wait-on |
+
+| Category    | Technology                               |
+| ----------- | ---------------------------------------- |
+| Runtime     | Electron                                 |
+| Packaging   | electron-builder → Windows `.exe` (NSIS) |
+| Dev tooling | concurrently, wait-on                    |
 
 ### Deployment & Infrastructure
-| Layer | Platform |
-|---|---|
-| Frontend hosting | Vercel / Netlify |
-| Backend hosting | Render |
+
+| Layer              | Platform                           |
+| ------------------ | ---------------------------------- |
+| Frontend hosting   | Vercel / Netlify                   |
+| Backend hosting    | Render                             |
 | Offline networking | LAN / Intranet (Wi-Fi or Ethernet) |
-| Version control | Git & GitHub |
+| Version control    | Git & GitHub                       |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (LTS)
 - npm
 - MongoDB (Atlas account, or MongoDB Community Server installed locally)
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Abdul-kahad/utas-stores.git
 cd utas-stores
 ```
 
 ### 2. Backend setup
+
 ```bash
 cd server
 npm install
 ```
 
 Create a `.env` file in `/server`:
+
 ```env
 PORT=5000
 HOST=0.0.0.0
@@ -181,6 +190,7 @@ NODE_ENV=development
 ```
 
 Run the backend:
+
 ```bash
 node server.js
 # or
@@ -188,28 +198,33 @@ npm run server
 ```
 
 ### 3. Frontend setup
+
 ```bash
 cd client
 npm install
 ```
 
 Create a `.env` file in `/client`:
+
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
 Run the frontend:
+
 ```bash
 npm run dev
 ```
 
 ### 4. Desktop (Electron) build
+
 ```bash
 npm run electron:dev     # development
 npm run electron:build   # produces Windows .exe installer
 ```
 
 ### 5. Running on a Local Intranet
+
 1. Find your host machine's LAN IP (`ipconfig` / `ifconfig`)
 2. Set `VITE_API_URL` to `http://10.251.8.74:5000/api`
 3. Bind the backend to `0.0.0.0` (already the default)
@@ -220,12 +235,12 @@ npm run electron:build   # produces Windows .exe installer
 
 ## User Roles & Permissions
 
-| Role | Capabilities |
-|---|---|
-| **Admin** | Full system access, user management, audit logs, all reports |
-| **Store Manager** | Inventory, requests & approvals, issuing, reports |
-| **Procurement** | Add items, manage receipts, view inventory, manage suppliers |
-| **Department User** | Submit item requests, track own requests |
+| Role                | Capabilities                                                 |
+| ------------------- | ------------------------------------------------------------ |
+| **Admin**           | Full system access, user management, audit logs, all reports |
+| **Store Manager**   | Inventory, requests & approvals, issuing, reports            |
+| **Procurement**     | Add items, manage receipts, view inventory, manage suppliers |
+| **Department User** | Submit item requests, track own requests                     |
 
 ---
 
@@ -243,7 +258,7 @@ npm run electron:build   # produces Windows .exe installer
 
 ## Engineering Challenges Solved
 
-Building UTAS Stores across three deployment targets (cloud, LAN, desktop) surfaced real-world engineering problems beyond typical coursework:
+Building Ghana Health Servicess across three deployment targets (cloud, LAN, desktop) surfaced real-world engineering problems beyond typical coursework:
 
 - Route/middleware ordering bugs causing silent 404s
 - CORS and cookie `sameSite`/`secure` behavior differing between HTTP (LAN) and HTTPS (production)
