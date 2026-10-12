@@ -17,7 +17,6 @@ const itemSchema = mongoose.Schema({
   },
   unit: {
     type: String,
-    enum: ['Pcs', 'Boxes', 'Pieces', 'Rims', 'Packs'],
     default: 'Pcs',
     required: true
   },

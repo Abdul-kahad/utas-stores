@@ -20,16 +20,20 @@ const Login = () => {
     try {
       const result = await userlogin(formData)
 
-      if (result && result.success) {
-        localStorage.setItem('accessToken', result.accessToken)
-        localStorage.setItem('user', JSON.stringify(result.user))
-        
-        setServerMsg(result.message || 'Login successful!')
-        login(result.user) 
-        navigate(`/dashboard/${result.user.role}`)
-      } else {
-        setServerMsg(result?.message || 'Login failed. Please try again.')
-      }
+// Check if the token or user object exists instead of .success
+if (result && (result.accessToken || result.token)) {
+  const token = result.accessToken || result.token;
+  const userData = result.user;
+
+  localStorage.setItem('accessToken', token)
+  localStorage.setItem('user', JSON.stringify(userData))
+  
+  setServerMsg('Login successful!')
+  login(userData) 
+  navigate(`/dashboard/${userData.role}`)
+} else {
+  setServerMsg(result?.message || 'Login failed. Please try again.')
+}
     } catch (error) {
       console.error("Login component error:", error)
       const errorMsg = error.response?.data?.message || 'Invalid email or password.'
@@ -43,7 +47,7 @@ const Login = () => {
   <div className="relative h-screen flex items-center justify-center bg-white overflow-hidden">
     
     <div 
-      className="absolute inset-0 bg-[url('/images.png')] bg-cover bg-center bg-no-repeat backdrop-blur-sm transition-opacity duration-300"
+      className="absolute inset-0  bg-cover bg-center bg-no-repeat backdrop-blur-sm transition-opacity duration-300"
       style={{ opacity: 0.04 }}
     />
 
